@@ -1,5 +1,5 @@
 from linked_list_node import LinkedListNode
-from linked_list import LinkedList
+from linked_list import LinkedList, print_list_with_forward_arrow
 
 def reverse(head):
 
@@ -33,9 +33,9 @@ def main():
         input_linked_list = LinkedList()
         input_linked_list.create_linked_list(input[i])
         print(i+1, ".\tInput linked list: ", sep="", end="")
-        input_linked_list.print_list_with_forward_arrow(input_linked_list.head)
+        print_list_with_forward_arrow(input_linked_list.head)
         print("\n\tReversed linked list: ", end="")
-        input_linked_list.print_list_with_forward_arrow(reverse(input_linked_list.head))
+        print_list_with_forward_arrow(reverse(input_linked_list.head))
         print("\n", "-"*100)
 
 
