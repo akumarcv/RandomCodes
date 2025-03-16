@@ -2,13 +2,27 @@ def intervals_intersection(interval_list_a, interval_list_b):
     
     # Replace this placeholder return statement with your code
     intersections = []
-    i = 0; j = 0
+    i = 0
+    j = 0
     while i < len(interval_list_a) and j < len(interval_list_b): 
-        if interval_list_a :
-            pass
-        
-
-    return []
+        if interval_list_a[i][1] < interval_list_b[j][0]:
+            i += 1
+        elif interval_list_b[j][1] < interval_list_a[i][1]:
+            
+            interval = [max(interval_list_a[i][0], interval_list_b[j][0]),
+                                  min(interval_list_a[i][1], interval_list_b[j][1])]
+            if interval[1]>=interval[0]:
+                intersections.append(interval)
+            
+            j += 1
+        else:
+            interval = [max(interval_list_a[i][0], interval_list_b[j][0]),
+                                  min(interval_list_a[i][1], interval_list_b[j][1])]
+            if interval[1]>=interval[0]:
+                intersections.append(interval)
+            
+            i += 1
+    return intersections
 
 
 # Driver code
