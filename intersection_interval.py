@@ -4,7 +4,8 @@ def intervals_intersection(interval_list_a, interval_list_b):
     intersections = []
     i = 0; j = 0
     while i < len(interval_list_a) and j < len(interval_list_b): 
-        if interval_list_a 
+        if interval_list_a :
+            pass
         
 
     return []
