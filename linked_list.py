@@ -1,3 +1,5 @@
+from linked_list_node import LinkedListNode
+
 class LinkedList:
     # __init__ will be used to make a LinkedList type object.
     def __init__(self):
@@ -30,3 +32,15 @@ class LinkedList:
                 result += ", "
         result += ""
         return result
+
+    def print_list_with_forward_arrow(self, linked_list_node):
+        temp = linked_list_node
+        while temp:
+            print(temp.value, end=" ")  # print node value
+            
+            temp = temp.next
+            if temp:
+                print("→", end=" ")
+            else:
+                # if this is the last node, print null at the end
+                print("→ null", end=" ")
