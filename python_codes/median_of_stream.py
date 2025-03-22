@@ -1,10 +1,10 @@
 from heapq import *
 
+
 class MedianOfStream:
     def __init__(self):
         self.min_heap = []
         self.max_heap = []
-        
 
     # This function should take a number and store it
     def insert_num(self, num):
@@ -13,13 +13,11 @@ class MedianOfStream:
             heappush(self.max_heap, -num)
         else:
             heappush(self.min_heap, num)
-            
+
         if len(self.max_heap) > len(self.min_heap) + 1:
             heappush(self.min_heap, -heappop(self.max_heap))
         elif len(self.min_heap) > len(self.max_heap):
             heappush(self.max_heap, -heappop(self.min_heap))
-            
-        
 
     # This function should return the median of the stored numbers
     def find_median(self):
@@ -38,9 +36,11 @@ def main():
         numlist.append(i)
         print(x, ".\tData stream: ", numlist, sep="")
         median_num.insert_num(i)
-        print("\tThe median for the given numbers is: " +
-              str(median_num.find_median()), sep="")
-        print(100*"-"+"\n")
+        print(
+            "\tThe median for the given numbers is: " + str(median_num.find_median()),
+            sep="",
+        )
+        print(100 * "-" + "\n")
         x += 1
 
 

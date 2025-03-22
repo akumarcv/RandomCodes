@@ -7,13 +7,14 @@ def helper(n, left, right, result, current=""):
         helper(n, left + 1, right, result, current + "(")
     if right < left:
         helper(n, left, right + 1, result, current + ")")
-    
-    
+
+
 def generate_combinations(n):
     result = []
-    
+
     helper(n, 0, 0, result, "")
-    return result 
+    return result
+
 
 def print_result(result):
     for rs in result:
@@ -34,5 +35,5 @@ def main():
         print("-" * 100)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

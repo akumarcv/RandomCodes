@@ -1,26 +1,30 @@
 def intervals_intersection(interval_list_a, interval_list_b):
-    
+
     # Replace this placeholder return statement with your code
     intersections = []
     i = 0
     j = 0
-    while i < len(interval_list_a) and j < len(interval_list_b): 
+    while i < len(interval_list_a) and j < len(interval_list_b):
         if interval_list_a[i][1] < interval_list_b[j][0]:
             i += 1
         elif interval_list_b[j][1] < interval_list_a[i][1]:
-            
-            interval = [max(interval_list_a[i][0], interval_list_b[j][0]),
-                                  min(interval_list_a[i][1], interval_list_b[j][1])]
-            if interval[1]>=interval[0]:
+
+            interval = [
+                max(interval_list_a[i][0], interval_list_b[j][0]),
+                min(interval_list_a[i][1], interval_list_b[j][1]),
+            ]
+            if interval[1] >= interval[0]:
                 intersections.append(interval)
-            
+
             j += 1
         else:
-            interval = [max(interval_list_a[i][0], interval_list_b[j][0]),
-                                  min(interval_list_a[i][1], interval_list_b[j][1])]
-            if interval[1]>=interval[0]:
+            interval = [
+                max(interval_list_a[i][0], interval_list_b[j][0]),
+                min(interval_list_a[i][1], interval_list_b[j][1]),
+            ]
+            if interval[1] >= interval[0]:
                 intersections.append(interval)
-            
+
             i += 1
     return intersections
 
@@ -65,11 +69,15 @@ def main():
     ]
 
     for i in range(len(input_interval_list_a)):
-        print(i + 1, '.\t Interval List A: ', input_interval_list_a[i], sep="")
-        print('\t Interval List B: ', input_interval_list_b[i], sep="")
-        print("\t Intersecting intervals in 'A' and 'B' are: ", intervals_intersection(input_interval_list_a[i], input_interval_list_b[i]), sep="")
+        print(i + 1, ".\t Interval List A: ", input_interval_list_a[i], sep="")
+        print("\t Interval List B: ", input_interval_list_b[i], sep="")
+        print(
+            "\t Intersecting intervals in 'A' and 'B' are: ",
+            intervals_intersection(input_interval_list_a[i], input_interval_list_b[i]),
+            sep="",
+        )
 
-        print('-' * 100)
+        print("-" * 100)
 
 
 if __name__ == "__main__":

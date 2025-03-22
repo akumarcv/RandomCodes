@@ -12,12 +12,15 @@ def valid_word_abbreviation(word, abbr):
             count = int("".join(count))  # Convert list of digits to integer
             c2 += count  # Move the word pointer by the count
         else:
-            if c2 >= len(word) or word[c2] != abbr[c1]:  # Check for character match
+            # Check for character match
+            if c2 >= len(word) or word[c2] != abbr[c1]:
                 return False
             c1 += 1
             c2 += 1
 
-    return c1 == len(abbr) and c2 == len(word)  # Ensure both pointers reach the end
+    # Ensure both pointers reach the end
+    return c1 == len(abbr) and c2 == len(word)
 
-if __name__=="__main__":
-    print(valid_word_abbreviation("helloworld" , "4orworld"))
+
+if __name__ == "__main__":
+    print(valid_word_abbreviation("helloworld", "4orworld"))

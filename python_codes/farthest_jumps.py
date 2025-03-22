@@ -1,7 +1,9 @@
 def jump_game_two(nums):
     """
-    Function to find the minimum number of jumps required to reach the last index.
-    :param nums: List of integers representing the maximum jump length from that position.
+    Function to find the minimum number of jumps required to reach the last
+    index.
+    :param nums: List of integers representing the maximum jump length
+                 from that position.
     :return: Minimum number of jumps required to reach the last index.
     """
     farthest_jump = 0
@@ -21,19 +23,16 @@ def main():
     """
     Main function to test the jump_game_two function with different inputs.
     """
-    nums = [
-        [2, 3, 1, 1, 9],
-        [3, 2, 1, 1, 4],
-        [4, 0, 0, 0, 4],
-        [1, 1],
-        [1]
-    ]
+    nums = [[2, 3, 1, 1, 9], [3, 2, 1, 1, 4], [4, 0, 0, 0, 4], [1, 1], [1]]
 
     for i, num in enumerate(nums):
         print(f"{i + 1}. Input array: {num}")
-        print(f"\tMinimum number of jumps required to reach the last index: {jump_game_two(num)}")
+        print(
+            f"\tMinimum number of jumps required to reach the last index: "
+            f"{jump_game_two(num)}"
+        )
         print("-" * 100)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

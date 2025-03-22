@@ -1,22 +1,25 @@
 import heapq
+
+
 def find_right_interval(intervals):
     result = [-1] * len(intervals)
-    
+
     start_heap = []
     end_heap = []
     for i in range(len(intervals)):
         heapq.heappush(start_heap, (intervals[i][0], i))
         heapq.heappush(end_heap, (intervals[i][1], i))
-    
+
     while end_heap:
         end, index = heapq.heappop(end_heap)
-        while start_heap and start_heap[0][0]<end:
+        while start_heap and start_heap[0][0] < end:
             heapq.heappop(start_heap)
         if start_heap:
             result[index] = start_heap[0][1]
-        
+
     # Return this placeholder return statement with your code
     return result
+
 
 def main():
     test_cases = [
@@ -32,6 +35,7 @@ def main():
         result = find_right_interval(test_case)
         print("\n\tOutput:", result)
         print("-" * 100)
+
 
 if __name__ == "__main__":
     main()
