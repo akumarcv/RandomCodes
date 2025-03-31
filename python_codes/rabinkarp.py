@@ -2,17 +2,17 @@ def find_repeated_sequences(dna, k):
     """
     Find all repeated DNA sequences of length k using Rabin-Karp algorithm.
     Uses rolling hash technique for efficient pattern matching.
-    
+
     Args:
         dna: String representing DNA sequence with characters A, C, G, T
         k: Length of subsequences to find
-        
+
     Returns:
         set: All repeated subsequences of length k
-        
+
     Time Complexity: O(n) where n is length of DNA sequence
     Space Complexity: O(n-k+1) for storing hash values and output
-    
+
     Example:
         >>> find_repeated_sequences("AAAAACCCCCAAAAACCCCCC", 8)
         {'AAAAACCC', 'AAAACCCC'} # These subsequences appear multiple times
@@ -21,9 +21,9 @@ def find_repeated_sequences(dna, k):
     if k > len(dna):
         return set()
 
-    hash = set()       # Store hash values of seen sequences
-    output = set()     # Store repeated subsequences
-    hashvalue = 0      # Current rolling hash value
+    hash = set()  # Store hash values of seen sequences
+    output = set()  # Store repeated subsequences
+    hashvalue = 0  # Current rolling hash value
     char2int = {"A": 1, "C": 2, "G": 3, "T": 4}  # Map DNA bases to integers
     base = len(char2int.keys())  # Base for polynomial hash function
 
@@ -47,14 +47,14 @@ def find_repeated_sequences(dna, k):
             hashvalue = (
                 (previous_hash - input[i - 1] * (base ** (k - 1))) * base
             ) + input[i + k - 1]
-            
+
         # If hash value seen before, we found a repeated sequence
         if hashvalue in hash:
             output.add(dna[i : i + k])
 
         # Remember current hash value
         hash.add(hashvalue)
-        
+
         # Debug output to visualize algorithm progress
         print(
             "\tHash value of ",
@@ -74,7 +74,7 @@ def main():
     """
     Driver code to test Rabin-Karp DNA sequence finder.
     Tests various DNA sequences with different k values to find repeated patterns.
-    
+
     Test cases include:
     - Short sequences with no repetitions
     - Sequences with obvious repetitions

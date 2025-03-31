@@ -1,15 +1,16 @@
 from typing import List, Optional
 from queue import Queue
 
-def display_tree(root: 'TreeNode', space: int = 0, level_space: int = 10) -> None:
+
+def display_tree(root: "TreeNode", space: int = 0, level_space: int = 10) -> None:
     """
     Display a binary tree in a 2D format using recursive inorder traversal.
-    
+
     Args:
         root: Root node of the tree to display
         space: Current space from left margin
         level_space: Space between levels
-        
+
     Time Complexity: O(n) where n is number of nodes
     Space Complexity: O(h) where h is height of tree for recursion stack
     """
@@ -19,18 +20,19 @@ def display_tree(root: 'TreeNode', space: int = 0, level_space: int = 10) -> Non
     space += level_space
     display_tree(root.right, space, level_space)  # Process right subtree
     print(" " * (space - level_space) + str(root.data))  # Print current node
-    display_tree(root.left, space, level_space)   # Process left subtree
+    display_tree(root.left, space, level_space)  # Process left subtree
 
 
 class TreeNode:
     """
     Node class for Binary Tree implementation.
-    
+
     Attributes:
         data: Value stored in the node
         left: Reference to left child node
         right: Reference to right child node
     """
+
     def __init__(self, data):
         """Initialize a new tree node with given data."""
         self.data = data
@@ -42,14 +44,15 @@ class BinaryTree:
     """
     Binary Tree class that creates a tree from a list of nodes.
     Uses level-order traversal (BFS) for tree construction.
-    
+
     Attributes:
         root: Root node of the binary tree
     """
+
     def __init__(self, nodes: List[Optional[TreeNode]]):
         """
         Initialize binary tree from list of nodes.
-        
+
         Args:
             nodes: List of TreeNode objects or None values representing tree structure
         """
@@ -58,13 +61,13 @@ class BinaryTree:
     def createBinaryTree(self, nodes: List[Optional[TreeNode]]) -> Optional[TreeNode]:
         """
         Create binary tree from list of nodes using level-order traversal.
-        
+
         Args:
             nodes: List of TreeNode objects or None values
-            
+
         Returns:
             Root node of created binary tree or None if input is empty
-            
+
         Time Complexity: O(n) where n is number of nodes
         Space Complexity: O(w) where w is maximum width of tree
         """

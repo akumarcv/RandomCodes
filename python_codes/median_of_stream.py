@@ -6,7 +6,7 @@ class MedianOfStream:
     Class to find running median of a stream of numbers using two heaps.
     Uses min heap for larger half and max heap for smaller half of numbers.
     """
-    
+
     def __init__(self):
         """
         Initialize empty heaps for storing numbers.
@@ -19,10 +19,10 @@ class MedianOfStream:
     def insert_num(self, num):
         """
         Insert a new number into the stream and maintain heap balance.
-        
+
         Args:
             num: Number to insert into stream
-            
+
         Time Complexity: O(log n) for heap operations
         Space Complexity: O(n) for storing all numbers
         """
@@ -30,7 +30,7 @@ class MedianOfStream:
         if not self.max_heap or (-self.max_heap[0] >= num):
             heappush(self.max_heap, -num)  # Add to smaller half
         else:
-            heappush(self.min_heap, num)   # Add to larger half
+            heappush(self.min_heap, num)  # Add to larger half
 
         # Rebalance heaps if needed
         # Keep max_heap size equal to or one more than min_heap
@@ -42,12 +42,12 @@ class MedianOfStream:
     def find_median(self):
         """
         Calculate current median from the two heaps.
-        
+
         Returns:
             float: Current median of all numbers
                   If even count: average of middle two numbers
                   If odd count: middle number
-                  
+
         Time Complexity: O(1) as we maintain sorted halves
         """
         if len(self.max_heap) == len(self.min_heap):
@@ -70,7 +70,7 @@ def main():
     nums = [35, 22, 30, 25, 1]  # Test stream of numbers
     numlist = []  # Track numbers for display
     x = 1  # Counter for output formatting
-    
+
     # Process each number in stream
     for i in nums:
         numlist.append(i)

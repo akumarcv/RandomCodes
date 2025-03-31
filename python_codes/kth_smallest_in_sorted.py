@@ -5,17 +5,17 @@ from typing import List
 def k_smallest_number(lists: List[List[int]], k: int) -> int:
     """
     Find kth smallest number among all sorted lists using min heap approach.
-    
+
     Args:
         lists: List of sorted lists containing integers
         k: Position of number to find (1-based)
-        
+
     Returns:
         int: kth smallest number across all lists
-        
+
     Time Complexity: O(K * log(N)) where N is number of lists
     Space Complexity: O(N) for storing heap entries
-    
+
     Example:
         >>> k_smallest_number([[2,6,8], [3,6,10]], 3)
         6  # Third smallest number among all lists
@@ -29,13 +29,13 @@ def k_smallest_number(lists: List[List[int]], k: int) -> int:
 
     pop_count = 0
     k_smallest_number = 0
-    
+
     # Process elements until we find kth smallest
     while min_heap:
         # Get smallest current element and its position
         k_smallest_number, list_index, element_index = heappop(min_heap)
         pop_count += 1
-        
+
         # Found kth element
         if pop_count == k:
             break
@@ -60,12 +60,11 @@ def main():
     - Lists with duplicates
     """
     lists = [
-        [[2, 6, 8], [3, 6, 10], [5, 8, 11]],           # Regular case
-        [[1, 2, 3], [4, 5], [6, 7, 8, 15], 
-         [10, 11, 12, 13], [5, 10]],                    # Many lists
-        [[], [], []],                                    # Empty lists
-        [[1, 1, 3, 8], [5, 5, 7, 9], [3, 5, 8, 12]],   # Duplicates
-        [[5, 8, 9, 17], [], [8, 17, 23, 24]],          # Some empty lists
+        [[2, 6, 8], [3, 6, 10], [5, 8, 11]],  # Regular case
+        [[1, 2, 3], [4, 5], [6, 7, 8, 15], [10, 11, 12, 13], [5, 10]],  # Many lists
+        [[], [], []],  # Empty lists
+        [[1, 1, 3, 8], [5, 5, 7, 9], [3, 5, 8, 12]],  # Duplicates
+        [[5, 8, 9, 17], [], [8, 17, 23, 24]],  # Some empty lists
     ]
 
     k = [5, 50, 7, 4, 8]  # Different k values

@@ -2,16 +2,16 @@ def longest_palindromic_substrings(s: str) -> int:
     """
     Find length of longest palindromic substring using dynamic programming.
     Uses a bottom-up DP approach to build palindromes from smaller substrings.
-    
+
     Args:
         s: Input string to analyze
-        
+
     Returns:
         int: Length of longest palindromic substring found
-        
+
     Time Complexity: O(n²) where n is length of string
     Space Complexity: O(n²) for DP table
-    
+
     Example:
         >>> longest_palindromic_substrings("babad")
         3  # Longest palindrome is "bab" or "aba"
@@ -19,7 +19,7 @@ def longest_palindromic_substrings(s: str) -> int:
     # Handle empty string case
     if not s:
         return 0
-        
+
     # Create DP table where dp[i][j] represents if s[i:j+1] is palindrome
     dp = [[False for _ in range(len(s))] for _ in range(len(s))]
 

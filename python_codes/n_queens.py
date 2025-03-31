@@ -4,12 +4,12 @@ tab = 2  # Indentation constant for board visualization
 def print_board_state(n, solution, indent=1):
     """
     Print the chessboard with queens placement visualization.
-    
+
     Args:
         n: Size of the board (nxn)
         solution: 2D matrix with queens placement (1 for queen, 0 for empty)
         indent: Amount of indentation for board display
-        
+
     Returns:
         None: Displays board directly to console
     """
@@ -35,15 +35,15 @@ def check_correctness(board, i, j):
     """
     Check if placing a queen at position (i,j) is valid.
     Verifies no queens attack each other (no shared row, column, diagonal).
-    
+
     Args:
         board: Current board state with queens placed
         i: Row index for potential queen placement
         j: Column index for potential queen placement
-        
+
     Returns:
         bool: True if placement is valid, False otherwise
-        
+
     Time Complexity: O(n²) where n is board size
     """
     for k in range(len(board)):
@@ -60,13 +60,13 @@ def check_correctness(board, i, j):
 def helper(n, board, i, solution):
     """
     Recursive backtracking function to place queens on the board.
-    
+
     Args:
         n: Size of the board (nxn)
         board: Current state of the board
         i: Current row being processed
         solution: List to track number of solutions found
-        
+
     Returns:
         None: Updates solution count in-place
     """
@@ -86,16 +86,16 @@ def helper(n, board, i, solution):
 def solve_n_queens(n):
     """
     Solve the N-Queens problem for a board of size nxn.
-    
+
     Args:
         n: Size of the board (nxn)
-        
+
     Returns:
         int: Number of distinct solutions found
-        
+
     Time Complexity: O(n!) as we need to explore factorial possibilities
     Space Complexity: O(n²) for the board representation
-    
+
     Example:
         >>> solve_n_queens(4)
         2  # There are exactly 2 distinct solutions for 4 queens

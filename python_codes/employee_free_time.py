@@ -2,12 +2,13 @@ class Interval:
     """
     Class representing a time interval with start and end times.
     Can be either closed [start, end] or open (start, end).
-    
+
     Attributes:
         start: Start time of interval
         end: End time of interval
         closed: Boolean indicating if interval is closed (True) or open (False)
     """
+
     def __init__(self, start: int, end: int):
         """Initialize interval with start and end times."""
         self.start = start
@@ -21,7 +22,8 @@ class Interval:
     def __str__(self) -> str:
         """Return string representation of interval."""
         return (
-            f"[{self.start}, {self.end}]" if self.closed
+            f"[{self.start}, {self.end}]"
+            if self.closed
             else f"({self.start}, {self.end})"
         )
 
@@ -29,23 +31,23 @@ class Interval:
 def employee_free_time(schedule: list[list[Interval]]) -> list[Interval]:
     """
     Find free time intervals common to all employees.
-    
+
     Uses merge interval approach:
     1. Flatten all schedules into single list
     2. Sort intervals by start time
     3. Merge overlapping intervals
     4. Find gaps between merged intervals
-    
+
     Args:
         schedule: List of employee schedules, where each schedule is
                  a list of Interval objects
-        
+
     Returns:
         List of Interval objects representing free time periods
-        
+
     Time Complexity: O(N log N) where N is total number of intervals
     Space Complexity: O(N) for storing merged intervals
-    
+
     Example:
         >>> schedule = [[Interval(1,3)], [Interval(2,4)]]
         >>> free_time = employee_free_time(schedule)
@@ -67,8 +69,8 @@ def employee_free_time(schedule: list[list[Interval]]) -> list[Interval]:
     # Find gaps between merged intervals (free time)
     free_time = []
     for i in range(1, len(merged)):
-        if merged[i].start > merged[i-1].end:
-            free_time.append(Interval(merged[i-1].end, merged[i].start))
+        if merged[i].start > merged[i - 1].end:
+            free_time.append(Interval(merged[i - 1].end, merged[i].start))
 
     return free_time
 
@@ -76,15 +78,14 @@ def employee_free_time(schedule: list[list[Interval]]) -> list[Interval]:
 def display(vec: list[Interval]) -> str:
     """
     Create string representation of interval list.
-    
+
     Args:
         vec: List of Interval objects to display
-        
+
     Returns:
         String representation of intervals in format [int1, int2, ...]
     """
     return f"[{', '.join(str(interval) for interval in vec)}]"
-
 
 
 def main():

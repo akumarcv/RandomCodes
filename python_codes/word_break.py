@@ -3,17 +3,17 @@ def print_possible_combinations(s, word_dict):
     Prints all possible combinations of breaking the string using words from
     the dictionary.
     Uses dynamic programming to build up combinations incrementally.
-    
+
     Args:
         s: Input string to break into dictionary words
         word_dict: List of valid dictionary words
-        
+
     Returns:
         None: Prints results to console
-        
+
     Time Complexity: O(n³) where n is the length of string s
     Space Complexity: O(n*m) where m is number of possible combinations
-    
+
     Example:
         >>> print_possible_combinations("catdog", ["cat", "dog"])
         All possible combinations:
@@ -51,17 +51,17 @@ def word_break(s, word_dict):
     """
     Determine if string s can be segmented into words from the dictionary.
     Uses bottom-up dynamic programming approach to check if valid segmentation exists.
-    
+
     Args:
         s: Input string to check for word break possibility
         word_dict: List of valid dictionary words
-        
+
     Returns:
         bool: True if string can be segmented using dictionary words, False otherwise
-        
+
     Time Complexity: O(n²) where n is the length of string s
     Space Complexity: O(n) for the dp array
-    
+
     Example:
         >>> word_break("catsanddog", ["cats", "and", "dog"])
         True  # Can be broken as "cats and dog"
@@ -77,20 +77,20 @@ def word_break(s, word_dict):
             if dp[j] and s[j:i] in word_dict:
                 dp[i] = True  # s[0:i] can be segmented
                 break  # No need to check further substrings
-    
+
     return dp[-1]  # Return result for whole string
 
 
 def main():
     """
     Driver function to test word break algorithms with various test cases.
-    
+
     Tests include:
     - Strings that can be broken in multiple ways
     - Strings that cannot be broken
     - Strings with overlapping word patterns
     - Edge cases with repeated words
-    
+
     For each test case:
     1. Prints the input string
     2. Shows all possible word break combinations
@@ -105,7 +105,7 @@ def main():
         "screamicecream",
         "educativecourse",
     ]
-    
+
     # Dictionary of valid words for breaking strings
     word_dict = [
         "ncoo",
@@ -161,7 +161,7 @@ def main():
         "\n",
     )
     print("-" * 100)
-    
+
     # Process each test case
     for i in range(len(s)):
         print("Test Case #", i + 1, "\n\nInput: '" + str(s[i]) + "'\n")

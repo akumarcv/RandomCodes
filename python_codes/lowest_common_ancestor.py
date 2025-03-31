@@ -8,7 +8,7 @@ class Solution:
     Solution class for finding lowest common ancestor (LCA) in a binary tree.
     Uses recursive approach to traverse tree and track ancestor relationships.
     """
-    
+
     def __init__(self):
         """Initialize solution with None LCA."""
         self.lca = None  # Store the LCA once found
@@ -18,15 +18,15 @@ class Solution:
     ) -> "TreeNode":
         """
         Find lowest common ancestor of two nodes in binary tree.
-        
+
         Args:
             root: Root node of binary tree
             p: First target node
             q: Second target node
-            
+
         Returns:
             TreeNode: Lowest common ancestor of nodes p and q
-            
+
         Time Complexity: O(n) where n is number of nodes
         Space Complexity: O(h) where h is height of tree for recursion stack
         """
@@ -36,12 +36,12 @@ class Solution:
     def lowest_common_ancestor_helper(self, root, p, q):
         """
         Helper function to recursively find LCA using post-order traversal.
-        
+
         Args:
             root: Current node being processed
             p: First target node
             q: Second target node
-            
+
         Returns:
             bool: True if either p or q is found in current subtree
         """
@@ -50,11 +50,11 @@ class Solution:
 
         # Track if current node matches targets or found in subtrees
         left, right, mid = False, False, False
-        
+
         # Check if current node is one of target nodes
         if root == p or root == q:
             mid = True
-            
+
         # Search left subtree
         left = self.lowest_common_ancestor_helper(root.left, p, q)
 

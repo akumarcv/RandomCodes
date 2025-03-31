@@ -6,16 +6,16 @@ def longest_consecutive_sequence(nums: List[int]) -> int:
     Find length of longest consecutive sequence in an unsorted array.
     Uses set data structure for O(1) lookups and optimizes by only checking
     sequence starts (numbers that have no left neighbor).
-    
+
     Args:
         nums: List of integers (can be unsorted, contain duplicates)
-        
+
     Returns:
         int: Length of longest consecutive sequence
-        
+
     Time Complexity: O(n) where n is length of input array
     Space Complexity: O(n) for storing numbers in set
-    
+
     Example:
         >>> longest_consecutive_sequence([100,4,200,1,3,2])
         4  # Longest sequence is [1,2,3,4]
@@ -39,7 +39,7 @@ def longest_consecutive_sequence(nums: List[int]) -> int:
 
             # Update longest streak if current is longer
             longest_streak = max(curr_streak, longest_streak)
-            
+
     return longest_streak
 
 
@@ -56,12 +56,12 @@ def test_longest_consecutive_sequence() -> None:
     - Already sorted sequences
     """
     test_cases = [
-        ([100, 4, 200, 1, 3, 2], 4),          # Basic case [1,2,3,4]
+        ([100, 4, 200, 1, 3, 2], 4),  # Basic case [1,2,3,4]
         ([0, 3, 7, 2, 5, 8, 4, 6, 0, 1], 9),  # Longer sequence [0-8]
-        ([], 0),                               # Empty array
-        ([1], 1),                              # Single element
-        ([1, 2, 0, 1], 3),                     # With duplicates [0,1,2]
-        ([1, 2, 3, 4, 5], 5),                  # Already consecutive
+        ([], 0),  # Empty array
+        ([1], 1),  # Single element
+        ([1, 2, 0, 1], 3),  # With duplicates [0,1,2]
+        ([1, 2, 3, 4, 5], 5),  # Already consecutive
         ([9, 1, 4, 7, 3, -1, 0, 5, 8, -1, 6], 7),  # With negatives
     ]
 

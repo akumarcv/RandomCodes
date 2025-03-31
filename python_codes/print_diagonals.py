@@ -5,16 +5,16 @@ def print_diag(arr):
     """
     Print all anti-diagonals of a 2D matrix from top-left to bottom-right.
     An anti-diagonal is a line of elements where row index increases and column index decreases.
-    
+
     Args:
         arr: 2D matrix represented as a list of lists
-        
+
     Returns:
         None: Prints diagonals directly to console
-        
+
     Time Complexity: O(ROW*COL) where ROW,COL are dimensions of the matrix
     Space Complexity: O(1) as we only use constant extra space
-    
+
     Example:
         >>> print_diag([[1,2,3],[4,5,6],[7,8,9]])
         1
@@ -51,10 +51,10 @@ if __name__ == "__main__":
     """
     # Example matrix with 3 rows and 4 columns
     A = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]
-    
+
     print("Input matrix:")
     for row in A:
         print(row)
-        
+
     print("\nPrinting anti-diagonals:")
     print_diag(A)

@@ -2,16 +2,16 @@ def longest_substring(s: str) -> int:
     """
     Find length of longest substring without repeating characters using sliding window.
     Uses a dictionary to track last seen positions of characters and adjusts window size.
-    
+
     Args:
         s: Input string to analyze
-        
+
     Returns:
         int: Length of longest substring without repeating characters
-        
+
     Time Complexity: O(n) where n is length of string
     Space Complexity: O(min(m,n)) where m is size of character set
-    
+
     Example:
         >>> longest_substring("abcabcbb")
         3  # Longest substring is "abc"
@@ -21,9 +21,9 @@ def longest_substring(s: str) -> int:
         return 0
 
     # Initialize sliding window pointers and tracking variables
-    left = 0              # Left pointer of window
-    right = 0            # Right pointer of window
-    last_seen = {}       # Dictionary to store last position of each char
+    left = 0  # Left pointer of window
+    right = 0  # Right pointer of window
+    last_seen = {}  # Dictionary to store last position of each char
     max_length = float("-inf")  # Track maximum length found
 
     # Expand window to right while processing each character
@@ -42,7 +42,7 @@ def longest_substring(s: str) -> int:
         current_length = right - left + 1
         max_length = max(max_length, current_length)
         right += 1  # Expand window to right
-        
+
     return max_length
 
 
@@ -50,10 +50,10 @@ def longest_substring(s: str) -> int:
 if __name__ == "__main__":
     test_cases = [
         ("abcabcbb", 3),  # "abc" has length 3
-        ("bbbbb", 1),    # "b" has length 1
-        ("pwwkew", 3),   # "wke" has length 3
-        ("", 0),         # Empty string has length 0
-        ("abcdef", 6),   # "abcdef" has length 6
+        ("bbbbb", 1),  # "b" has length 1
+        ("pwwkew", 3),  # "wke" has length 3
+        ("", 0),  # Empty string has length 0
+        ("abcdef", 6),  # "abcdef" has length 6
         ("tmmzuxt", 5),  # Sliding window example
     ]
 

@@ -1,16 +1,16 @@
 def permute_word(word: str) -> list[str]:
     """
     Generate all possible permutations of a given string using recursion.
-    
+
     Args:
         word: Input string to generate permutations for
-        
+
     Returns:
         List of all possible permutations of the input string
-        
+
     Time Complexity: O(n!) where n is length of string
     Space Complexity: O(n!) to store all permutations
-    
+
     Example:
         >>> permute_word("abc")
         ['abc', 'acb', 'bac', 'bca', 'cab', 'cba']
@@ -18,7 +18,7 @@ def permute_word(word: str) -> list[str]:
     # Base case: empty string has one permutation
     if word == "":
         return [""]
-    
+
     # Recursive case: generate permutations using each character as first
     else:
         result = []
@@ -26,8 +26,8 @@ def permute_word(word: str) -> list[str]:
             # Choose current character as first
             first = word[i]
             # Get remaining characters
-            rest = word[:i] + word[i + 1:]
-            
+            rest = word[:i] + word[i + 1 :]
+
             # Recursively get permutations of remaining characters
             for p in permute_word(rest):
                 # Add current character to front of each sub-permutation

@@ -1,19 +1,19 @@
 def longest_common_subsequence(str1: str, str2: str) -> int:
     """
     Find length of longest common subsequence between two strings using dynamic programming.
-    A subsequence is a sequence that can be derived from another sequence by deleting some 
+    A subsequence is a sequence that can be derived from another sequence by deleting some
     or no elements without changing the order of the remaining elements.
-    
+
     Args:
         str1: First input string
         str2: Second input string
-        
+
     Returns:
         int: Length of longest common subsequence
-        
+
     Time Complexity: O(m*n) where m,n are lengths of input strings
     Space Complexity: O(m*n) for DP table
-    
+
     Example:
         >>> longest_common_subsequence("abcde", "ace")
         3  # 'ace' is the longest common subsequence
@@ -30,7 +30,7 @@ def longest_common_subsequence(str1: str, str2: str) -> int:
             else:
                 # Characters don't match, take max of excluding either character
                 dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
-                
+
     return dp[-1][-1]  # Return length of LCS
 
 
@@ -45,18 +45,18 @@ def main():
     """
     # Test cases with pairs of strings
     first_strings = [
-        "qstw",     # Few common chars
-        "setter",   # Some common chars
-        "abcde",    # Sequential chars
+        "qstw",  # Few common chars
+        "setter",  # Some common chars
+        "abcde",  # Sequential chars
         "partner",  # Random string
-        "freedom"   # Multiple common chars
+        "freedom",  # Multiple common chars
     ]
     second_strings = [
-        "gofvn",    # Few matches
-        "bat",      # Short string
-        "apple",    # Different sequence
-        "park",     # Partial match
-        "redeem"    # Similar pattern
+        "gofvn",  # Few matches
+        "bat",  # Short string
+        "apple",  # Different sequence
+        "park",  # Partial match
+        "redeem",  # Similar pattern
     ]
 
     # Process each test case

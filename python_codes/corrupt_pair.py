@@ -1,21 +1,21 @@
 def find_corrupt_pair(nums: list[int]) -> list[int]:
     """
     Find missing and duplicate numbers in an array using cyclic sort.
-    
+
     In a correct array of n numbers, each number from 1 to n should appear once.
     This function finds the missing number and the duplicate number.
-    
+
     Args:
         nums: List of integers from 1 to n where one number is missing
              and one number is duplicated
-             
+
     Returns:
         List containing [missing_number, duplicate_number], or empty list
         if no corrupt pair found
-        
+
     Time Complexity: O(n) where n is length of input array
     Space Complexity: O(1) as we modify array in-place
-    
+
     Example:
         >>> find_corrupt_pair([3, 1, 2, 3, 6, 4])
         [5, 3]  # 5 is missing, 3 appears twice
@@ -36,11 +36,12 @@ def find_corrupt_pair(nums: list[int]) -> list[int]:
             return [i + 1, nums[i]]  # Missing number is i+1, duplicate is nums[i]
     return []  # No corrupt pair found
 
+
 def test_find_corrupt_pair():
     """
     Test cases for finding corrupt pair in an array.
     Tests various scenarios including edge cases.
-    
+
     Test cases cover:
     - Regular cases with missing and duplicate numbers
     - Small arrays with duplicates
@@ -50,12 +51,12 @@ def test_find_corrupt_pair():
     """
     test_cases = [
         ([3, 1, 2, 3, 6, 4], [5, 3]),  # Duplicate 3, Missing 5
-        ([3, 1, 2, 5, 2], [4, 2]),     # Duplicate 2, Missing 4
-        ([1, 2, 2, 4], [3, 2]),        # Duplicate 2, Missing 3
-        ([1, 1], [2, 1]),              # Small array, Duplicate 1
-        ([1, 2, 3], []),               # No corrupt pair
-        ([2, 2], [1, 2]),              # All same numbers
-        ([4, 3, 4, 1], [2, 4]),        # Duplicate 4, Missing 2
+        ([3, 1, 2, 5, 2], [4, 2]),  # Duplicate 2, Missing 4
+        ([1, 2, 2, 4], [3, 2]),  # Duplicate 2, Missing 3
+        ([1, 1], [2, 1]),  # Small array, Duplicate 1
+        ([1, 2, 3], []),  # No corrupt pair
+        ([2, 2], [1, 2]),  # All same numbers
+        ([4, 3, 4, 1], [2, 4]),  # Duplicate 4, Missing 2
     ]
 
     for i, (nums, expected) in enumerate(test_cases, 1):
@@ -68,9 +69,11 @@ def test_find_corrupt_pair():
         print(f"Expected corrupt pair [missing, duplicate]: {expected}")
         print(f"Got: {result}")
 
-        assert result == expected, \
-            f"Test case {i} failed! Expected {expected}, got {result}"
+        assert (
+            result == expected
+        ), f"Test case {i} failed! Expected {expected}, got {result}"
         print("✓ Passed")
+
 
 if __name__ == "__main__":
     test_find_corrupt_pair()

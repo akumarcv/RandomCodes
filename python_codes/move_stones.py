@@ -5,13 +5,13 @@ def bfs(grid):
     """
     Perform breadth-first search to find minimum moves to reach target state.
     Target state is a 3x3 grid with exactly one stone in each cell.
-    
+
     Args:
         grid: 3x3 grid representing current stone distribution
-        
+
     Returns:
         int: Minimum moves required to reach target, -1 if impossible
-        
+
     Time Complexity: O(9!) for possible grid states
     Space Complexity: O(9!) for storing visited states
     """
@@ -48,13 +48,13 @@ def minimum_moves(grid):
     """
     Find minimum moves needed to distribute stones evenly.
     All cells should have exactly one stone after moves.
-    
+
     Args:
         grid: 3x3 grid with initial stone distribution
-        
+
     Returns:
         int: Minimum moves required, -1 if impossible
-        
+
     Example:
         >>> minimum_moves([[1,1,1], [1,2,3], [0,0,0]])
         3  # Takes 3 moves to distribute stones evenly
@@ -64,7 +64,6 @@ def minimum_moves(grid):
     if stones != 9:  # Impossible if total stones != 9
         return -1
     return bfs(grid)  # Find minimum moves using BFS
-
 
 
 def main():

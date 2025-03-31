@@ -2,16 +2,16 @@ def missing_number(nums: list[int]) -> int:
     """
     Find missing number in sequence 0 to n using cyclic sort approach.
     Places each number in its correct position and finds first mismatch.
-    
+
     Args:
         nums: List of integers from 0 to n with one number missing
-        
+
     Returns:
         int: The missing number in the sequence
-        
+
     Time Complexity: O(n) where n is length of input array
     Space Complexity: O(1) as we sort in-place
-    
+
     Example:
         >>> missing_number([3,0,1])
         2  # Number 2 is missing from sequence [0,1,3]
@@ -31,7 +31,7 @@ def missing_number(nums: list[int]) -> int:
     for x in range(len(nums)):
         if x != nums[x]:
             return x  # Found missing number
-    
+
     # If all numbers present, missing number is n
     return len(nums)
 
@@ -42,7 +42,7 @@ def test_missing_number():
     Each test case contains:
     - Input array
     - Expected missing number
-    
+
     Tests various scenarios including:
     - Missing number in middle
     - Missing last number

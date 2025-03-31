@@ -2,14 +2,14 @@ def trib_helper(n, table):
     """
     Helper function for calculating the nth Tribonacci number using memoization.
     Tribonacci sequence: each number is the sum of the three preceding ones.
-    
+
     Args:
         n: The position in the Tribonacci sequence to calculate
         table: Memoization table to store previously calculated values
-        
+
     Returns:
         int: The nth Tribonacci number
-        
+
     Time Complexity: O(n) as each value is calculated exactly once
     Space Complexity: O(n) for the memoization table and recursion stack
     """
@@ -33,18 +33,18 @@ def trib_helper(n, table):
 def find_tribonacci(n):
     """
     Calculate the nth Tribonacci number.
-    The Tribonacci sequence starts with [0, 1, 1] and then each number is 
+    The Tribonacci sequence starts with [0, 1, 1] and then each number is
     the sum of the three preceding ones.
-    
+
     Args:
         n: The position in the Tribonacci sequence (0-indexed)
-        
+
     Returns:
         int: The nth Tribonacci number
-        
+
     Time Complexity: O(n) using dynamic programming with memoization
     Space Complexity: O(n) for the memoization table
-    
+
     Example:
         >>> find_tribonacci(4)
         4  # The sequence is [0,1,1,2,4,...]
@@ -75,10 +75,10 @@ def main():
     """
     Test the Tribonacci function with multiple inputs.
     Displays the Tribonacci number for positions 0 through 15.
-    
+
     The expected sequence begins:
     0, 1, 1, 2, 4, 7, 13, 24, 44, 81, 149, 274, 504, 927, 1705, 3136, ...
-    
+
     Each test case demonstrates how the sequence grows based on the
     sum of the three preceding values.
     """

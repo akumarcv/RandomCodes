@@ -6,15 +6,15 @@ def combination_helper(w, pattern, result):
     """
     Recursively generate all 3-sequence patterns from a list of websites.
     Uses backtracking to build all possible combinations.
-    
+
     Args:
         w: Remaining websites to choose from
         pattern: Current partial pattern being built
         result: List to store generated patterns
-        
+
     Returns:
         None: Updates result list in-place
-        
+
     Time Complexity: O(n³) where n is length of website list
     Space Complexity: O(n) for recursion stack and pattern storage
     """
@@ -32,16 +32,16 @@ def combination_helper(w, pattern, result):
 def return_all_combinations(websites):
     """
     Generate all possible 3-sequence website patterns from a user's history.
-    
+
     Args:
         websites: List of websites visited by a user in chronological order
-        
+
     Returns:
         set: Set of tuples, each representing a unique 3-sequence pattern
-        
+
     Time Complexity: O(n³) for generating all combinations
     Space Complexity: O(n³) for storing all unique combinations
-    
+
     Example:
         >>> return_all_combinations(['home', 'about', 'career', 'home'])
         {('home', 'about', 'career'), ('home', 'about', 'home'), ('about', 'career', 'home')}
@@ -59,18 +59,18 @@ def mostVisitedPattern(
     """
     Find the most common 3-sequence pattern of websites across all users.
     If multiple patterns have same frequency, return lexicographically smallest.
-    
+
     Args:
         username: List of user identifiers for each visit
         timestamp: List of timestamps for each visit
         website: List of websites visited
-        
+
     Returns:
         List[str]: Most frequent 3-sequence pattern
-        
+
     Time Complexity: O(n³) where n is total number of website visits
     Space Complexity: O(n²) for storing user histories and patterns
-    
+
     Example:
         >>> mostVisitedPattern(
         ...     ["joe", "joe", "joe", "james", "james"],
@@ -108,14 +108,14 @@ def test_most_visited_pattern():
     """
     Test cases for finding most visited 3-sequence pattern.
     Verifies algorithm works correctly for various input scenarios.
-    
+
     Test cases include:
     - Basic pattern identification
     - Multiple users with same pattern
     - Different timestamp distributions
     - Complex overlapping patterns
     - Edge cases with unique patterns
-    
+
     Each test displays:
     - Input data (users, timestamps, websites)
     - Expected output pattern

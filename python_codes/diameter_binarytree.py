@@ -4,32 +4,32 @@ from binary_tree import TreeNode, BinaryTree
 def diameter_helper(root: TreeNode, diameter: int) -> tuple[int, int]:
     """
     Helper function to calculate tree diameter recursively.
-    
+
     For each node, calculates:
     1. Maximum diameter passing through this node
     2. Height of subtree rooted at this node
-    
+
     Args:
         root: Current node being processed
         diameter: Maximum diameter found so far
-        
+
     Returns:
         tuple: (max_diameter, height_of_subtree)
-        
+
     Time Complexity: O(n) where n is number of nodes
     Space Complexity: O(h) where h is height of tree for recursion stack
     """
     # Base case: empty subtree
     if root is None:
         return diameter, 0
-        
+
     # Recursively process left and right subtrees
     diameter, left_height = diameter_helper(root.left, diameter)
     diameter, right_height = diameter_helper(root.right, diameter)
 
     # Update diameter if path through current node is longer
     diameter = max(diameter, left_height + right_height)
-    
+
     # Return updated diameter and height of current subtree
     return diameter, max(left_height, right_height) + 1
 
@@ -38,13 +38,13 @@ def diameter_of_binaryTree(root: TreeNode) -> int:
     """
     Calculate diameter (longest path) of binary tree.
     Diameter is longest path between any two nodes, may not pass through root.
-    
+
     Args:
         root: Root node of binary tree
-        
+
     Returns:
         int: Length of longest path (number of edges)
-        
+
     Example:
         >>> tree = TreeNode(1)
         >>> tree.left = TreeNode(2)
@@ -59,7 +59,6 @@ def diameter_of_binaryTree(root: TreeNode) -> int:
     # Get diameter using helper function (ignore height)
     diameter, _ = diameter_helper(root, 0)
     return diameter
-
 
 
 def test_diameter():

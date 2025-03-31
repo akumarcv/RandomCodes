@@ -4,27 +4,28 @@ def is_happy_number(n: int) -> bool:
     A happy number is defined by the following process:
     1. Replace the number by sum of squares of its digits
     2. Repeat until number equals 1 (happy) or enters a cycle (not happy)
-    
+
     Args:
         n: Integer number to check
-        
+
     Returns:
         bool: True if number is happy, False otherwise
-        
+
     Time Complexity: O(log n) for digit extraction and sum calculation
     Space Complexity: O(1) as we only use two pointers
-    
+
     Example:
         >>> is_happy_number(19)
         True  # 1² + 9² = 82 -> 8² + 2² = 68 -> 6² + 8² = 100 -> 1² + 0² + 0² = 1
     """
+
     def helper(num: int) -> int:
         """
         Calculate sum of squares of digits for given number.
-        
+
         Args:
             num: Number to process
-            
+
         Returns:
             int: Sum of squares of digits
         """
@@ -54,13 +55,13 @@ def main():
     - Edge cases
     """
     test_numbers = [
-        7,    # Happy number
-        19,   # Happy number
-        2,    # Unhappy number
-        4,    # Unhappy number
-        1,    # Happy number (base case)
-        13,   # Happy number
-        89    # Happy number
+        7,  # Happy number
+        19,  # Happy number
+        2,  # Unhappy number
+        4,  # Unhappy number
+        1,  # Happy number (base case)
+        13,  # Happy number
+        89,  # Happy number
     ]
 
     for i, num in enumerate(test_numbers, 1):

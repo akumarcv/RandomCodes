@@ -8,16 +8,16 @@ def rain_water(nums):
     Calculate trapped water using two different approaches:
     1. Left-right array method
     2. Two-pointer optimization
-    
+
     Args:
         nums: List of integers representing elevation map heights
-        
+
     Returns:
         tuple: (water_array_method, water_two_pointer_method)
-        
+
     Time Complexity: O(n) for both methods where n is length of nums
     Space Complexity: O(n) for array method, O(1) for two-pointer method
-    
+
     Example:
         >>> rain_water([0,1,0,2,1,0,1,3,2,1,2,1])
         (6, 6)  # Both methods correctly calculate 6 units of trapped water
@@ -29,13 +29,13 @@ def rain_water(nums):
         """
         Calculate trapped water using left and right max arrays.
         For each position, water trapped = min(left_max, right_max) - height
-        
+
         Args:
             nums: List of integers representing elevation map heights
-            
+
         Returns:
             int: Total water trapped
-            
+
         Time Complexity: O(n) where n is length of nums
         Space Complexity: O(n) for storing left and right max arrays
         """
@@ -65,13 +65,13 @@ def rain_water(nums):
         """
         Calculate trapped water using optimized two-pointer approach.
         Uses constant extra space by tracking left and right maximums.
-        
+
         Args:
             nums: List of integers representing elevation map heights
-            
+
         Returns:
             int: Total water trapped
-            
+
         Time Complexity: O(n) where n is length of nums
         Space Complexity: O(1) as we only use constant extra space
         """
@@ -111,7 +111,7 @@ if __name__ == "__main__":
     - Edge cases (empty array, single element)
     - Special cases (no trapped water)
     - Different height distributions
-    
+
     For each test:
     1. Runs both implementations
     2. Compares against expected output

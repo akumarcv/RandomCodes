@@ -5,15 +5,15 @@ def dfs(grid, i, j):
     """
     Depth-first search to mark all connected land cells as visited.
     Changes connected '1's to '0's to mark them as processed.
-    
+
     Args:
         grid: 2D grid of '1's (land) and '0's (water)
         i: Current row index
         j: Current column index
-        
+
     Returns:
         None: Modifies grid in-place
-        
+
     Time Complexity: O(1) per call, but overall O(m*n) for entire grid traversal
     Space Complexity: O(m*n) worst case for recursion stack on a grid of all 1s
     """
@@ -38,32 +38,32 @@ class Solution:
         """
         Count number of islands in a 2D grid using DFS.
         An island is a group of '1's connected horizontally or vertically.
-        
+
         Args:
             grid: 2D grid where '1' is land and '0' is water
-            
+
         Returns:
             int: Number of islands found
-            
+
         Time Complexity: O(m*n) where m,n are dimensions of grid
         Space Complexity: O(m*n) worst case for recursion stack
-        
+
         Example:
             >>> Solution().numIslands([["1","1","0"],["0","1","0"],["0","0","1"]])
             2  # Two separate islands
         """
         if not grid:
             return 0  # Empty grid has no islands
-        
+
         num_island = 0  # Counter for number of islands
-        
+
         # Iterate through every cell in the grid
         for i in range(len(grid)):
             for j in range(len(grid[0])):
                 if grid[i][j] == "1":  # Found unvisited land
                     dfs(grid, i, j)  # Mark all connected land as visited
                     num_island += 1  # Count this connected group as one island
-        
+
         return num_island
 
 

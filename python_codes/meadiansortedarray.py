@@ -7,17 +7,17 @@ class Solution:
     def findMedianSortedArrays(self, nums1, nums2):
         """
         Find median of two sorted arrays using heap-based merge.
-        
+
         Args:
             nums1: First sorted array of integers
             nums2: Second sorted array of integers
-            
+
         Returns:
             float: Median value of merged arrays
-            
+
         Time Complexity: O((m+n)log(m+n)) where m,n are array lengths
         Space Complexity: O(m+n) for storing merged array
-        
+
         Example:
             >>> Solution().findMedianSortedArrays([1,3], [2])
             2.0  # Median of merged array [1,2,3]
@@ -31,7 +31,7 @@ class Solution:
                 else (finarr[len(finarr) // 2 - 1] + finarr[len(finarr) // 2]) / 2
             )
             return median
-            
+
         # Handle case when second array is empty
         if not nums2:
             finarr = nums1
@@ -45,12 +45,12 @@ class Solution:
         # Create and populate min heap
         arr = self.pusharray(nums1 + nums2)
         finarr = []
-        
+
         # Extract elements in sorted order
         for j in range(1, len(arr)):
             val = self.minpop(arr)
             finarr.append(val)
-            
+
         # Calculate median based on array length
         median = (
             finarr[len(finarr) // 2]
@@ -62,10 +62,10 @@ class Solution:
     def pusharray(self, nums):
         """
         Create min heap from input array.
-        
+
         Args:
             nums: Array of numbers to heapify
-            
+
         Returns:
             list: Min heap array with sentinel at index 0
         """
@@ -78,7 +78,7 @@ class Solution:
     def swap(self, arr, i, j):
         """
         Swap elements at given indices in array.
-        
+
         Args:
             arr: Input array
             i, j: Indices of elements to swap
@@ -88,7 +88,7 @@ class Solution:
     def floatup(self, arr, index):
         """
         Float element up in min heap to maintain heap property.
-        
+
         Args:
             arr: Heap array
             index: Index of element to float up
@@ -104,10 +104,10 @@ class Solution:
     def minpop(self, arr):
         """
         Remove and return minimum element from heap.
-        
+
         Args:
             arr: Heap array
-            
+
         Returns:
             int: Minimum value in heap, or False if heap is empty
         """
@@ -122,7 +122,7 @@ class Solution:
     def floatdown(self, arr, index):
         """
         Float element down in min heap to maintain heap property.
-        
+
         Args:
             arr: Heap array
             index: Index of element to float down

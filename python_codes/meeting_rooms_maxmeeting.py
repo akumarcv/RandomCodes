@@ -5,17 +5,17 @@ def most_booked(meetings: list[list[int]], rooms: int) -> int:
     """
     Find room that held most meetings using multiple heap approach.
     Uses min heaps to track meeting schedules and room availability.
-    
+
     Args:
         meetings: List of [start_time, end_time] for each meeting
         rooms: Number of available meeting rooms
-        
+
     Returns:
         int: Index of room that held the most meetings (0-indexed)
-        
+
     Time Complexity: O(M * log(M)) where M is number of meetings
     Space Complexity: O(R) where R is number of rooms
-    
+
     Example:
         >>> most_booked([[0,10],[1,5],[2,7],[3,4]], 2)
         0  # Room 0 held more meetings than room 1
@@ -45,7 +45,7 @@ def most_booked(meetings: list[list[int]], rooms: int) -> int:
         # Get next meeting to schedule
         _, idx = heapq.heappop(meetings_heap)
         assigned = False
-        
+
         # Try to assign meeting to an available room
         for i in range(rooms):
             # Room is empty or previous meeting has ended
@@ -59,7 +59,7 @@ def most_booked(meetings: list[list[int]], rooms: int) -> int:
                 meetings_in_rooms[i] += 1
                 assigned = True
                 break
-                
+
         # If no room available, delay meeting by 1 unit
         if not assigned:
             meetings[idx][0] += 1
@@ -83,11 +83,11 @@ def main():
     """
     meetings = [
         [[0, 10], [1, 11], [2, 12], [3, 13], [4, 14], [5, 15]],  # Sequential starts
-        [[1, 20], [2, 10], [3, 5], [4, 9], [6, 8]],              # Various durations
-        [[1, 2], [0, 10], [2, 3], [3, 4]],                       # Mixed schedule
-        [[0, 2], [1, 2], [3, 4], [2, 4]],                        # Short meetings
-        [[1, 9], [2, 8], [3, 7], [4, 6], [5, 11]],              # Nested meetings
-        [[0, 4], [1, 3], [2, 4], [3, 5], [4, 6], [5, 7]],       # Continuous schedule
+        [[1, 20], [2, 10], [3, 5], [4, 9], [6, 8]],  # Various durations
+        [[1, 2], [0, 10], [2, 3], [3, 4]],  # Mixed schedule
+        [[0, 2], [1, 2], [3, 4], [2, 4]],  # Short meetings
+        [[1, 9], [2, 8], [3, 7], [4, 6], [5, 11]],  # Nested meetings
+        [[0, 4], [1, 3], [2, 4], [3, 5], [4, 6], [5, 7]],  # Continuous schedule
     ]
     rooms = [3, 3, 2, 4, 3, 4]  # Different room configurations
 

@@ -6,16 +6,16 @@ class Solution:
         """
         Find the longest common prefix string amongst an array of strings.
         Uses character-by-character comparison approach.
-        
+
         Args:
             strs: List of strings to find common prefix from
-            
+
         Returns:
             str: Longest common prefix string, or empty string if none exists
-            
+
         Time Complexity: O(S) where S is sum of all characters in all strings
         Space Complexity: O(1) as we only store the prefix string
-        
+
         Example:
             >>> Solution().longestCommonPrefix(["flower", "flow", "flight"])
             "fl"  # "fl" is the longest common prefix
@@ -25,20 +25,20 @@ class Solution:
             return ""
 
         prefix = ""  # Store the common prefix
-        
+
         # Find length of shortest string (maximum possible prefix length)
         min_len = min([len(s) for s in strs])
 
         # Check each character position across all strings
         for i in range(min_len):
             common = True  # Flag to track if current character is common
-            
+
             # Compare current character across adjacent strings
             for j in range(len(strs) - 1):
                 if strs[j][i] != strs[j + 1][i]:
                     common = False
                     break
-                    
+
             # Add character to prefix if common, otherwise we're done
             if common:
                 prefix = prefix + strs[0][i]
@@ -52,7 +52,7 @@ def test_longest_common_prefix():
     """
     Test cases for finding longest common prefix.
     Each test case contains a list of strings and expected common prefix.
-    
+
     Tests various scenarios including:
     - Basic cases with common prefixes
     - No common prefix
@@ -82,9 +82,7 @@ def test_longest_common_prefix():
         print(f"Got prefix: '{result}'")
 
         assert result == expected, (
-            f"Test case {i} failed!\n" 
-            f"Expected: '{expected}'\n" 
-            f"Got: '{result}'"
+            f"Test case {i} failed!\n" f"Expected: '{expected}'\n" f"Got: '{result}'"
         )
         print("✓ Passed")
 

@@ -1,16 +1,17 @@
 from typing import List
 
+
 def helper(grid: List[List[int]], i: int, j: int, value: int, target: int) -> None:
     """
     Recursive helper function to perform flood fill operation.
-    
+
     Args:
         grid: 2D grid to perform flood fill on
         i: Current row index
         j: Current column index
         value: Original color value to replace
         target: New color value to fill with
-        
+
     Time Complexity: O(m*n) where m,n are grid dimensions
     Space Complexity: O(m*n) for recursion stack in worst case
     """
@@ -34,19 +35,19 @@ def flood_fill(grid: List[List[int]], sr: int, sc: int, target: int) -> List[Lis
     """
     Perform flood fill operation starting from given position.
     Similar to paint bucket tool in image editors.
-    
+
     Args:
         grid: 2D grid to perform flood fill on
         sr: Starting row index
         sc: Starting column index
         target: New color value to fill with
-        
+
     Returns:
         Modified grid after flood fill operation
-        
+
     Time Complexity: O(m*n) where m,n are grid dimensions
     Space Complexity: O(m*n) for recursion stack
-    
+
     Example:
         >>> grid = [[1,1,1],[1,1,0],[1,0,1]]
         >>> flood_fill(grid, 1, 1, 2)
@@ -55,10 +56,11 @@ def flood_fill(grid: List[List[int]], sr: int, sc: int, target: int) -> List[Lis
     # No change needed if starting position already has target color
     if grid[sr][sc] == target:
         return grid
-        
+
     # Start flood fill from given position
     helper(grid, sr, sc, grid[sr][sc], target)
     return grid
+
 
 # Driver code
 
