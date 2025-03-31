@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import cv2
 
+
 def median_filter(X, kernel_size, stride=2):
     pad = kernel_size // 2
     X_padded = np.pad(X, pad, mode="constant", constant_values=0)
@@ -20,6 +21,7 @@ def median_filter(X, kernel_size, stride=2):
             median = np.median(values)
             result_X[i, j] = median
     return result_X
+
 
 def mean_filter(X, kernel_size, stride=2):
     pad = kernel_size // 2
@@ -39,14 +41,17 @@ def mean_filter(X, kernel_size, stride=2):
             result_X[i, j] = mean
     return result_X
 
+
 # Driver code
 if __name__ == "__main__":
     image = True
     random_data = True
 
-    if image: 
+    if image:
         # read image
-        X = cv2.imread("512-grayscale-image-Cameraman.png", cv2.IMREAD_GRAYSCALE).astype(int)
+        X = cv2.imread(
+            "512-grayscale-image-Cameraman.png", cv2.IMREAD_GRAYSCALE
+        ).astype(int)
 
         # Apply median filter
         kernel_size = 7

@@ -20,7 +20,6 @@ class SpatialTransformer(nn.Module):
             nn.ReLU(True),
         )
         self.fc = nn.Linear(inchannels * 4 * 4, 6)
-        
 
     def forward(self, x):
         theta = self.fc(

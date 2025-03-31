@@ -5,12 +5,12 @@ from typing import List
 def reservoir_sampling(k: int, nums: list):
     reservoir: List = []
 
-    for i in range( len(nums)):
-        if i<k:
+    for i in range(len(nums)):
+        if i < k:
             reservoir.append(nums[i])
         else:
             rand_int = np.random.randint(0, i)
-            
+
             if rand_int < k:
                 reservoir[rand_int] = nums[i]
 

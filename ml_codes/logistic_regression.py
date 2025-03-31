@@ -98,6 +98,6 @@ if __name__ == "__main__":
     plt.ylabel("Loss")
     plt.title("Training and Validation Loss vs Iterations")
     plt.legend()
-    plt.savefig('logistic_regression_plots.png')  # Save the plot as a PNG file
+    plt.savefig("logistic_regression_plots.png")  # Save the plot as a PNG file
     plt.show()
     plt.show()
