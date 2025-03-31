@@ -1,7 +1,26 @@
 def helper(grid, word, i, j, index):
+    """
+    Recursive helper function to search for a word in a grid.
+    Uses depth-first search to explore adjacent cells in all four directions.
+    
+    Args:
+        grid: 2D array of characters
+        word: String to search for
+        i: Current row coordinate
+        j: Current column coordinate
+        index: Current position in the word being matched
+        
+    Returns:
+        bool: True if the word can be found starting at position [i,j], False otherwise
+        
+    Time Complexity: O(4^L) where L is the length of the word
+    Space Complexity: O(L) for recursion stack
+    """
+    # Base case: if we've matched all characters in the word
     if index == len(word):
         return True
 
+    # Return false if current position is invalid or character doesn't match
     if (
         i < 0
         or i >= len(grid)
@@ -11,28 +30,76 @@ def helper(grid, word, i, j, index):
     ):
         return False
 
+    # Temporarily mark current cell as visited by replacing with space
     temp = grid[i][j]
     grid[i][j] = " "
+    
+    # Try all 4 directions (down, up, right, left)
     found = (
-        helper(grid, word, i + 1, j, index + 1)
-        or helper(grid, word, i - 1, j, index + 1)
-        or helper(grid, word, i, j + 1, index + 1)
-        or helper(grid, word, i, j - 1, index + 1)
+        helper(grid, word, i + 1, j, index + 1)  # Down
+        or helper(grid, word, i - 1, j, index + 1)  # Up
+        or helper(grid, word, i, j + 1, index + 1)  # Right
+        or helper(grid, word, i, j - 1, index + 1)  # Left
     )
+    
+    # Restore the original character before returning
     grid[i][j] = temp
     return found
 
 
 def word_search(grid, word):
-
+    """
+    Search for a word in a 2D grid of characters.
+    The word can be constructed from adjacent characters in up, down, left, or right directions.
+    
+    Args:
+        grid: 2D array of characters
+        word: String to search for
+        
+    Returns:
+        bool: True if the word can be found in the grid, False otherwise
+        
+    Time Complexity: O(M*N*4^L) where M,N are grid dimensions and L is word length
+    Space Complexity: O(L) for recursion stack
+    
+    Example:
+        >>> word_search([["A","B"],["C","D"]], "ABC")
+        True  # A→B→C forms a valid path
+    """
+    # Empty word edge case
+    if not word:
+        return True
+    
+    # Try starting the search from each cell in the grid
     for i in range(len(grid)):
         for j in range(len(grid[0])):
+            # If we find the word starting at any position, return True
             if helper(grid, word, i, j, 0):
                 return True
+    
+    # Word not found after checking all starting positions
     return False
 
 
 def main():
+    """
+    Driver function to test word search algorithm with multiple test cases.
+    
+    Each test case includes:
+    - A grid of characters
+    - A word to search for
+    - Expected output (found/not found)
+    
+    Test cases cover:
+    - Words that follow various paths (horizontal, vertical, zigzag)
+    - Words that don't exist in the grid
+    - Edge cases like empty words or single-character searches
+    
+    For each test case:
+    1. Prints the grid
+    2. Prints the word to search
+    3. Prints whether the word was found
+    """
     input = [
         (
             [

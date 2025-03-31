@@ -1,72 +1,99 @@
 from heapq import *
+from typing import List
 
 
-def k_smallest_pairs(list1, list2, k):
-    # storing the length of lists to use it in a loop later
+def k_smallest_pairs(list1: List[int], list2: List[int], k: int) -> List[List[int]]:
+    """
+    Find k pairs with smallest sums where one element is from each list.
+    Uses min heap to efficiently track and retrieve smallest sum pairs.
+    
+    Args:
+        list1: First sorted list of integers
+        list2: Second sorted list of integers
+        k: Number of pairs to return
+        
+    Returns:
+        List of k pairs [x,y] with smallest sums where x is from list1 and y from list2
+        
+    Time Complexity: O(k * log(min(k,m))) where m is length of list1
+    Space Complexity: O(min(k,m)) for heap storage
+    
+    Example:
+        >>> k_smallest_pairs([1,7,11], [2,4,6], 3)
+        [[1,2], [1,4], [1,6]]  # Pairs with smallest sums
+    """
+    # Storing the length of lists to use it in a loop later
     list_length = len(list1)
-    # declaring a min-heap to keep track of the smallest sums
+    
+    # Declaring a min-heap to keep track of the smallest sums
+    # Format: (sum, index_list1, index_list2)
     min_heap = []
-    # to store the pairs with smallest sums
+    
+    # To store the pairs with smallest sums
     pairs = []
 
-    # iterate over the length of list 1
+    # Initialize heap with pairs using first element from list2
     for i in range(min(k, list_length)):
-        # computing sum of pairs all elements of list1 with first index
-        # of list2 and placing it in the min-heap
         heappush(min_heap, (list1[i] + list2[0], i, 0))
 
     counter = 1
 
-    # iterate over elements of min-heap and only go upto k
+    # Process pairs until we have k pairs or heap is empty
     while min_heap and counter <= k:
-        # placing sum of the top element of min-heap
-        # and its corresponding pairs in i and j
+        # Get pair with current smallest sum
         sum_of_pairs, i, j = heappop(min_heap)
 
-        # add pairs with the smallest sum in the new list
+        # Add current pair to result
         pairs.append([list1[i], list2[j]])
 
-        # increment the index for 2nd list, as we've
-        # compared all possible pairs with the 1st index of list2
+        # Move to next element in list2 for current list1 element
         next_element = j + 1
 
-        # if next element is available for list2 then add it to the heap
+        # If we have more elements in list2, add new pair to heap
         if len(list2) > next_element:
             heappush(min_heap, (list1[i] + list2[next_element], i, next_element))
 
         counter += 1
 
-    # return the pairs with the smallest sums
     return pairs
 
 
-# Driver code
 def main():
+    """
+    Driver code to test k smallest pairs functionality.
+    Tests various scenarios including:
+    - Different list sizes
+    - Different k values
+    - Edge cases
+    - Various number distributions
+    """
+    # Test cases with different configurations
+    list1 = [
+        [2, 8, 9],              # Regular case
+        [1, 2, 300],            # Large number in list
+        [1, 1, 2],              # Duplicates
+        [4, 6],                 # Small lists
+        [4, 7, 9],              # Sorted numbers
+        [1, 1, 2]               # More duplicates
+    ]
 
-    # multiple inputs for efficient results
-    list1 = [[2, 8, 9], [1, 2, 300], [1, 1, 2], [4, 6], [4, 7, 9], [1, 1, 2]]
+    list2 = [
+        [1, 3, 6],              # Regular case
+        [1, 11, 20, 35, 300],   # More elements
+        [1, 2, 3],              # Sequential
+        [2, 3],                 # Small list
+        [4, 7, 9],              # Equal numbers
+        [1]                     # Single element
+    ]
 
-    # multiple inputs for efficient results
-    list2 = [[1, 3, 6], [1, 11, 20, 35, 300], [1, 2, 3], [2, 3], [4, 7, 9], [1]]
+    k = [9, 30, 1, 2, 5, 4]    # Different k values
 
-    k = [9, 30, 1, 2, 5, 4]
-
-    # loop to execute till the length of list k
+    # Process each test case
     for i in range(len(k)):
-        print(
-            i + 1,
-            ".\t Input pairs: ",
-            list1[i],
-            ", ",
-            list2[i],
-            f"\n\t k = {k[i]}",
-            sep="",
-        )
-        print(
-            "\t Pairs with the smallest sum are: ",
-            k_smallest_pairs(list1[i], list2[i], k[i]),
-            sep="",
-        )
+        print(f"{i + 1}.\tInput pairs: {list1[i]}, {list2[i]}")
+        print(f"\tk = {k[i]}")
+        result = k_smallest_pairs(list1[i], list2[i], k[i])
+        print(f"\tPairs with the smallest sum are: {result}")
         print("-" * 100)
 
 

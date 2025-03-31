@@ -1,6 +1,21 @@
 def intervals_intersection(interval_list_a, interval_list_b):
-
-    # Replace this placeholder return statement with your code
+    """
+    Find intersections between two lists of intervals using two-pointer approach.
+    
+    Args:
+        interval_list_a: First list of sorted intervals [start, end]
+        interval_list_b: Second list of sorted intervals [start, end]
+        
+    Returns:
+        List of intervals representing intersections between input lists
+        
+    Time Complexity: O(n + m) where n, m are lengths of input lists
+    Space Complexity: O(min(n, m)) for storing intersections
+    
+    Example:
+        >>> intervals_intersection([[1,4]], [[2,3]])
+        [[2,3]]  # Intersection of [1,4] and [2,3]
+    """
     intersections = []
     i = 0
     j = 0

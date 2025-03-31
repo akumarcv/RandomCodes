@@ -2,31 +2,51 @@ import collections
 
 
 class Node:
+    """
+    Node class for linked list with random pointer.
+    
+    Attributes:
+        val: Integer value stored in the node
+        next: Reference to next node in sequence
+        random: Reference to random node in list
+    """
     def __init__(self, x: int, next: "Node" = None, random: "Node" = None):
         self.val = int(x)
         self.next = next
         self.random = random
 
-
-def copy_list(head):
+def copy_list(head: Node) -> Node:
+    """
+    Copy linked list with random pointers using BFS approach.
+    
+    Args:
+        head: Head node of the original linked list
+        
+    Returns:
+        Head node of the copied linked list
+        
+    Time Complexity: O(n) where n is number of nodes
+    Space Complexity: O(n) for visited dictionary and queue
+    """
     if head is None:
         return head
 
-    new_list = None
-
+    # Track visited nodes and their copies
     visited = {}
-    queue = []
-    queue.append(head)
+    queue = collections.deque([head])
     visited[head] = Node(head.val)
 
     while queue:
-        current = queue.pop(0)
+        current = queue.popleft()
+        
+        # Handle next pointer
         if current.next and current.next not in visited:
             visited[current.next] = Node(current.next.val)
             queue.append(current.next)
         if current.next:
             visited[current].next = visited[current.next]
 
+        # Handle random pointer
         if current.random and current.random not in visited:
             visited[current.random] = Node(current.random.val)
             queue.append(current.random)
@@ -35,29 +55,40 @@ def copy_list(head):
 
     return visited[head]
 
-
-def copy_list_twopass(head):
+def copy_list_twopass(head: Node) -> Node:
+    """
+    Copy linked list with random pointers using two-pass approach.
+    
+    First pass: Create copies of all nodes
+    Second pass: Connect next and random pointers
+    
+    Args:
+        head: Head node of the original linked list
+        
+    Returns:
+        Head node of the copied linked list
+        
+    Time Complexity: O(n) where n is number of nodes
+    Space Complexity: O(n) for hash map storage
+    """
     if head is None:
-        return
+        return None
 
-    hmap = {None: None}
-
+    # First pass: Create node copies
+    hmap = {None: None}  # Handle null pointers
     curr = head
-
     while curr:
         hmap[curr] = Node(curr.val)
         curr = curr.next
 
+    # Second pass: Connect pointers
     curr = head
     while curr:
-        hmap[curr].next = hmap[curr.next]
-        hmap[curr].random = hmap[curr.random]
+        hmap[curr].next = hmap[curr.next]     # Connect next pointers
+        hmap[curr].random = hmap[curr.random]  # Connect random pointers
         curr = curr.next
+        
     return hmap[head]
-
-
-# ...existing code...
-
 
 def print_list(head, list_name=""):
     """Helper function to print linked list with random pointers"""

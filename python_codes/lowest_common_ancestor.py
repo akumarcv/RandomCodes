@@ -4,31 +4,69 @@ from binary_tree import BinaryTree, TreeNode
 
 
 class Solution:
+    """
+    Solution class for finding lowest common ancestor (LCA) in a binary tree.
+    Uses recursive approach to traverse tree and track ancestor relationships.
+    """
+    
     def __init__(self):
-        self.lca = None
+        """Initialize solution with None LCA."""
+        self.lca = None  # Store the LCA once found
 
     def lowestCommonAncestor(
         self, root: "TreeNode", p: "TreeNode", q: "TreeNode"
     ) -> "TreeNode":
+        """
+        Find lowest common ancestor of two nodes in binary tree.
+        
+        Args:
+            root: Root node of binary tree
+            p: First target node
+            q: Second target node
+            
+        Returns:
+            TreeNode: Lowest common ancestor of nodes p and q
+            
+        Time Complexity: O(n) where n is number of nodes
+        Space Complexity: O(h) where h is height of tree for recursion stack
+        """
         self.lowest_common_ancestor_helper(root, p, q)
-
         return self.lca
 
     def lowest_common_ancestor_helper(self, root, p, q):
+        """
+        Helper function to recursively find LCA using post-order traversal.
+        
+        Args:
+            root: Current node being processed
+            p: First target node
+            q: Second target node
+            
+        Returns:
+            bool: True if either p or q is found in current subtree
+        """
         if not root:
             return False
 
+        # Track if current node matches targets or found in subtrees
         left, right, mid = False, False, False
+        
+        # Check if current node is one of target nodes
         if root == p or root == q:
             mid = True
+            
+        # Search left subtree
         left = self.lowest_common_ancestor_helper(root.left, p, q)
 
+        # Only search right if LCA not found yet
         if not self.lca:
             right = self.lowest_common_ancestor_helper(root.right, p, q)
 
+        # If we found both targets (any combination of mid/left/right)
         if mid + right + left >= 2:
             self.lca = root
 
+        # Return True if target found in current subtree
         return mid or left or right
 
 

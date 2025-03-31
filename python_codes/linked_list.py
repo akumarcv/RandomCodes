@@ -2,60 +2,103 @@ from linked_list_node import LinkedListNode
 
 
 class LinkedList:
-    # __init__ will be used to make a LinkedList type object.
+    """
+    Implementation of a singly linked list data structure.
+    Supports basic operations like insertion and traversal.
+    """
+    
     def __init__(self):
-        self.head = None
+        """Initialize an empty linked list."""
+        self.head = None  # Reference to first node
 
-    # insert_node_at_head method will insert a LinkedListNode at
-    # head of a linked list.
-    def insert_node_at_head(self, node):
+    def insert_node_at_head(self, node: LinkedListNode) -> None:
+        """
+        Insert a new node at the beginning of the list.
+        
+        Args:
+            node: LinkedListNode to insert at head
+        """
         if self.head:
             node.next = self.head
             self.head = node
         else:
             self.head = node
 
-    # create_linked_list method will create the linked list using the
-    # given integer array with the help of InsertAthead method.
-    def create_linked_list(self, lst):
+    def create_linked_list(self, lst: list) -> None:
+        """
+        Create linked list from given list of values.
+        
+        Args:
+            lst: List of values to convert to linked list
+        """
         for x in reversed(lst):
             new_node = LinkedListNode(x)
             self.insert_node_at_head(new_node)
 
-    # __str__(self) method will display the elements of linked list.
-    def __str__(self):
+    def __str__(self) -> str:
+        """
+        String representation of linked list.
+        
+        Returns:
+            str: Comma-separated values in list
+        """
         result = ""
         temp = self.head
         while temp:
-            result += str(temp.data)
+            result += str(temp.value)  # Changed from temp.data to temp.value
             temp = temp.next
             if temp:
                 result += ", "
-        result += ""
         return result
 
 
-def print_list_with_forward_arrow(linked_list_node):
+def print_list_with_forward_arrow(linked_list_node: LinkedListNode) -> None:
+    """
+    Print linked list with arrow notation showing connections.
+    
+    Args:
+        linked_list_node: Head of the linked list to print
+    
+    Example:
+        >>> print_list_with_forward_arrow(head)
+        1 → 2 → 3 → null
+    """
     temp = linked_list_node
     while temp:
-        print(temp.value, end=" ")  # print node value
-
+        print(temp.value, end=" ")
         temp = temp.next
         if temp:
             print("→", end=" ")
         else:
-            # if this is the last node, print null at the end
             print("→ null", end=" ")
 
 
-def traverse_linked_list(head):
+def traverse_linked_list(head: LinkedListNode) -> None:
+    """
+    Simple traversal of linked list without modifications.
+    
+    Args:
+        head: First node of the linked list
+    """
     current, nxt = head, None
     while current:
         nxt = current.next
         current = nxt
 
 
-def reverse_linked_list(head):
+def reverse_linked_list(head: LinkedListNode) -> LinkedListNode:
+    """
+    Reverse a linked list in-place.
+    
+    Args:
+        head: First node of the linked list
+        
+    Returns:
+        LinkedListNode: New head of reversed list
+        
+    Time Complexity: O(n) where n is length of list
+    Space Complexity: O(1) as reversal is done in-place
+    """
     prev, curr = None, head
     while curr:
         nxt = curr.next
@@ -65,16 +108,26 @@ def reverse_linked_list(head):
     return prev
 
 
-def reverse_linked_list_k(head, k):
+def reverse_linked_list_k(head: LinkedListNode, k: int) -> tuple[LinkedListNode, LinkedListNode]:
+    """
+    Reverse first k nodes of linked list.
+    
+    Args:
+        head: First node of the linked list
+        k: Number of nodes to reverse
+        
+    Returns:
+        tuple: (new_head, next_node) where:
+            - new_head is head of reversed section
+            - next_node is first node after reversed section
+            
+    Time Complexity: O(k)
+    Space Complexity: O(1)
+    """
     previous, current, next = None, head, None
     for _ in range(k):
-        # temporarily store the next node
-        next = current.next
-        # reverse the current node
-        current.next = previous
-        # before we move to the next node, point previous to the
-        # current node
-        previous = current
-        # move to the next node
-        current = next
+        next = current.next      # Store next node
+        current.next = previous  # Reverse current node
+        previous = current       # Move previous pointer
+        current = next          # Move to next node
     return previous, current

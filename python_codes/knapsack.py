@@ -1,75 +1,90 @@
-def find_max_knapsack_profit(capacity, weights, values):
+from typing import List
+
+
+def find_max_knapsack_profit(capacity: int, weights: List[int], values: List[int]) -> int:
+    """
+    Solve 0/1 Knapsack problem using dynamic programming.
+    For each item, we either include it or exclude it based on maximum profit.
+    
+    Args:
+        capacity: Maximum weight capacity of knapsack
+        weights: List of weights for each item
+        values: List of values/profits for each item
+        
+    Returns:
+        int: Maximum profit achievable within weight capacity
+        
+    Time Complexity: O(n*W) where n is number of items and W is capacity
+    Space Complexity: O(n*W) for DP table
+    
+    Example:
+        >>> find_max_knapsack_profit(6, [1,2,3,5], [1,5,4,8])
+        13  # Select items with weights [1,2,3] and values [1,5,4]
+    """
+    # Initialize DP table with dimensions [items+1][capacity+1]
     dp = [[0 for _ in range(capacity + 1)] for _ in range(len(values) + 1)]
 
+    # Fill DP table: For each item and each possible capacity
     for i in range(1, len(values) + 1):
         for j in range(1, capacity + 1):
+            # If current item can fit in knapsack
             if weights[i - 1] <= j:
+                # Max of: including current item or excluding it
                 dp[i][j] = max(
-                    values[i - 1] + dp[i - 1][j - weights[i - 1]], dp[i - 1][j]
+                    values[i - 1] + dp[i - 1][j - weights[i - 1]],  # Include item
+                    dp[i - 1][j]  # Exclude item
                 )
             else:
+                # Can't include current item, take previous best
                 dp[i][j] = dp[i - 1][j]
-    return dp[-1][-1]
+                
+    return dp[-1][-1]  # Return maximum profit
 
 
 def main():
+    """
+    Driver code to test knapsack implementation with various inputs.
+    Tests different scenarios including:
+    - Multiple items with varying weights/values
+    - Single item cases
+    - Different capacities
+    - Large scale problems (commented out)
+    """
+    # Test cases with different weights, values, and capacities
     weights = [
-        [1, 2, 3, 5],
-        [4],
-        [2],
-        [3, 6, 10, 7, 2],
-        [3, 6, 10, 7, 2, 12, 15, 10, 13, 20],
+        [1, 2, 3, 5],                    # Regular case
+        [4],                             # Single item
+        [2],                             # Small weight
+        [3, 6, 10, 7, 2],               # Multiple items
+        [3, 6, 10, 7, 2, 12, 15, 10, 13, 20],  # Many items
     ]
     values = [
-        [1, 5, 4, 8],
-        [2],
-        [3],
-        [12, 10, 15, 17, 13],
-        [12, 10, 15, 17, 13, 12, 30, 15, 18, 20],
+        [1, 5, 4, 8],                    # Regular case
+        [2],                             # Single value
+        [3],                             # Small value
+        [12, 10, 15, 17, 13],            # Multiple values
+        [12, 10, 15, 17, 13, 12, 30, 15, 18, 20],  # Many values
     ]
-    capacity = [6, 3, 3, 10, 20]
+    capacity = [6, 3, 3, 10, 20]         # Different capacities
 
-    # Let's uncomment this to see the benefit of using dynamic programming 
-    # with tabulation
-
-    # weights.append([
-    #     63,  55,  47,  83,  61,  82,   6,  34,   9,  38,   6,  69,  17,
-    #     50,   7, 100, 101,   4,  41,  28, 119,  78,  98,  38,  75,  35,
-    #      8,  10,  16,  93,  34,  23,  51,  79, 118,  86,  85, 109,  88,
-    #     72,  99,  36,  21,  80,  42,  44,  62,   7,  54,   7,   6,   0,
-    #     65,  25,  44,  86,  76,  18,  11,  10, 104,  17,  36,  91,  78,
-    #     88,  79, 103,   1,   4,  34,  94,  73,  21,   8,   9,  79,  25,
-    #    106,  76,  39,  78,   1,  92, 104,  84,  40, 100, 116,  84,  23,
-    #     79, 109,  79,  71,  72, 116,  90,  79,  26
-    # ])
-    # values.append([
-    #     35,  47,   8, 103,  83,  71,  11, 107,   9,  34,  41,  54,  73,
-    #     72, 108, 100,  46,  27,  79,  98,  49,  63,  41, 116,  57,  86,
-    #     51,  47,  88, 118,  65,   0,  64,  11,  45,  47,  36,  50, 114,
-    #     90, 105,  55,  93,  12,  73,  96,  50,  27,  36,  97,  12,  21,
-    #    107,  34, 106,  37,  84,  38, 110,  60,  34, 104,  92,  56,  94,
-    #    109,  81,  17,  24, 106,  50,  68,  90,  73,  46,  99,   5,   5,
-    #     22,  27,  58,  24,  20,  80,  37,   1,  16,  39,  26,  32,  12,
-    #     47,  22,  28,  50,  95,   6, 105, 101,  20
-    # ])
-    # capacity.append(1000)
-
+    # Process each test case
     for i in range(len(values)):
         print(
-            i + 1,
-            ". We have a knapsack of capacity ",
-            capacity[i],
-            " and we are given the following list of item values and weights:",
-            sep="",
+            f"{i + 1}. We have a knapsack of capacity {capacity[i]} "
+            "and we are given the following list of item values and weights:"
         )
-        print("-" * 30, sep="")
+        print("-" * 30)
         print("{:<10}{:<5}{:<5}".format("Weights", "|", "Values"))
         print("-" * 30)
+        
+        # Print item details
         for j in range(len(values[i])):
             print("{:<10}{:<5}{:<5}".format(weights[i][j], "|", values[i][j]))
+            
+        # Calculate and print result
         result = find_max_knapsack_profit(capacity[i], weights[i], values[i])
-        print("\nThe maximum we can earn is: ", result, sep="")
-        print("-" * 100, "\n", sep="")
+        print(f"\nThe maximum profit achievable is: {result}")
+        print("-" * 100, "\n")
 
 
 if __name__ == "__main__":
