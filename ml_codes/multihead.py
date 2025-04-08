@@ -10,7 +10,7 @@ class SelfAttention(nn.Module):
         self.block_size = 8
         self.n_heads = 8
         self.in_dim = 64
-        self.embed_dim = 64
+        self.embed_dim = 128
         self.out_dim = 64
         self.q_linear_in = nn.Linear(self.in_dim, 3 * self.embed_dim, bias=False)
         self.q_linear_out = nn.Linear(self.embed_dim, self.out_dim, bias=False)
@@ -38,7 +38,7 @@ class SelfAttention(nn.Module):
         attention = attention.masked_fill(self.mask == 0, float("-inf"))
         attention = nn.functional.softmax(attention, dim=-1)
         y = attention @ v  # (B x nh x Tx T) X (B x nh x T x C) -> (B x nh x T X C)
-        y = y.permute(0, 2, 1, 3).contiguous().view(B, T, C)
+        y = y.permute(0, 2, 1, 3).contiguous().view(B, T, self.embed_dim)
         y = self.q_linear_out(y)
         # print(f"in_proj {in_proj.shape} q {q.shape} k {k.shape} v {v.shape} A {attention.shape} y {y.shape}")
         return y
