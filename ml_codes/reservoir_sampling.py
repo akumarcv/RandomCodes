@@ -1,5 +1,9 @@
 import numpy as np
-from typing import List, TypeVar, Generic
+from typing import List, TypeVar, Any, Callable
+import heapq
+import matplotlib.pyplot as plt
+import seaborn as sns
+import time
 
 T = TypeVar("T")  # Define a type variable for generic list elements
 
@@ -62,37 +66,195 @@ def reservoir_sampling(k: int, nums: List[T]) -> List[T]:
     return reservoir
 
 
-# Driver code
-if __name__ == "__main__":
-    # Test the reservoir sampling algorithm with a simple example
-    nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
-    k = 5  # Size of the reservoir
+def reservoir_sampling_heap(k: int, nums: List[T]) -> List[T]:
+    heap = []
+    for i, num in enumerate(nums):
+        # Generate a random weight for this element
+        weight = np.random.random()
 
-    # Perform reservoir sampling
-    result = reservoir_sampling(k, nums)
-    print(f"Input array: {nums}")
-    print(f"Reservoir sampling results (k={k}): {result}")
+        if i < k:
+            # For first k elements, simply add to heap
+            heapq.heappush(heap, (weight, num))
+        elif weight > heap[0][0]:
+            # For remaining elements, if weight is larger than smallest in heap
+            # replace the smallest element
+            heapq.heappushpop(heap, (weight, num))
 
-    # Demonstrate with a different value of k
-    k2 = 3
-    result2 = reservoir_sampling(k2, nums)
-    print(f"Reservoir sampling results (k={k2}): {result2}")
+    # Extract just the elements (not the weights)
+    return [(item[1], item[0]) for item in heap]  # Return (element, weight)
 
-    # Verify the distribution with multiple runs
-    print("\nDistribution test - running 1000 times with k=3:")
+
+def test_correctness(
+    sampling_func: Callable, k: int, nums: List[Any], num_trials: int = 10000
+) -> dict:
+    """
+    Test the statistical correctness of a sampling function by running it many times
+    and checking if each element appears with approximately equal probability.
+
+    Parameters:
+    -----------
+    sampling_func : Callable
+        The sampling function to test
+    k : int
+        Number of elements to sample
+    nums : List[Any]
+        List to sample from
+    num_trials : int
+        Number of sampling trials to run
+
+    Returns:
+    --------
+    dict:
+        Dictionary containing counts of each element's occurrence
+    """
+    # Initialize count dictionary
     count_dict = {i: 0 for i in nums}
 
-    # Run the sampling 1000 times and count occurrences of each number
-    num_trials = 1000
+    # Run multiple trials
     for _ in range(num_trials):
-        sampled = reservoir_sampling(3, nums)
+        sampled = sampling_func(k, nums)
+        # Extract elements from tuples if sampling_heap was used
+        if isinstance(sampled[0], tuple):
+            sampled = [item[0] for item in sampled]
         for item in sampled:
             count_dict[item] += 1
 
-    # Print the selection frequencies
-    print("Element frequencies (should be approximately equal):")
-    for num, count in count_dict.items():
-        expected = (
-            k2 * num_trials / len(nums)
-        )  # Expected count for uniform distribution
-        print(f"Number {num}: {count} times (Expected: ~{expected:.1f})")
+    return count_dict
+
+
+def test_performance(
+    sampling_func: Callable, k: int, nums_sizes: List[int], num_trials: int = 10
+) -> List[float]:
+    """
+    Test the performance of a sampling function with different input sizes.
+
+    Parameters:
+    -----------
+    sampling_func : Callable
+        The sampling function to test
+    k : int
+        Number of elements to sample
+    nums_sizes : List[int]
+        List of different input sizes to test
+    num_trials : int
+        Number of trials to run for each size (results will be averaged)
+
+    Returns:
+    --------
+    List[float]:
+        List of average execution times for each input size
+    """
+    times = []
+
+    for size in nums_sizes:
+        # Create a list of specified size
+        nums = list(range(1, size + 1))
+        total_time = 0
+
+        # Run multiple trials to get reliable timing
+        for _ in range(num_trials):
+            start_time = time.time()
+            sampling_func(k, nums)
+            total_time += time.time() - start_time
+
+        # Calculate average time
+        avg_time = total_time / num_trials
+        times.append(avg_time)
+        print(f"Input size {size}: {avg_time:.6f} seconds")
+
+    return times
+
+
+def main():
+    # Set seed for reproducibility
+    np.random.seed(42)
+
+    print("==== Testing Statistical Correctness ====")
+
+    # Test data
+    nums = list(range(1, 101))  # Numbers 1-100
+    k = 10  # Sample size
+    num_trials = 10000  # Number of sampling trials
+
+    # Test both algorithms
+    print(f"Running {num_trials} trials of reservoir sampling with k={k}...")
+    standard_counts = test_correctness(reservoir_sampling, k, nums, num_trials)
+
+    print(f"Running {num_trials} trials of heap-based reservoir sampling with k={k}...")
+    heap_counts = test_correctness(reservoir_sampling_heap, k, nums, num_trials)
+
+    # Calculate expected count for uniform distribution
+    expected_count = k * num_trials / len(nums)
+    print(f"Expected count per element: {expected_count:.2f}")
+
+    # Calculate statistical measures
+    standard_variance = np.var(list(standard_counts.values()))
+    heap_variance = np.var(list(heap_counts.values()))
+
+    print(f"Standard algorithm - variance of counts: {standard_variance:.2f}")
+    print(f"Heap algorithm - variance of counts: {heap_variance:.2f}")
+
+    # Create visualization
+    plt.figure(figsize=(14, 7))
+
+    # Plot standard algorithm counts
+    plt.subplot(1, 2, 1)
+    plt.bar(standard_counts.keys(), standard_counts.values(), alpha=0.7)
+    plt.axhline(
+        y=expected_count,
+        color="r",
+        linestyle="--",
+        label=f"Expected ({expected_count:.1f})",
+    )
+    plt.title("Standard Reservoir Sampling")
+    plt.xlabel("Element")
+    plt.ylabel("Count")
+    plt.legend()
+    plt.grid(alpha=0.3)
+
+    # Plot heap algorithm counts
+    plt.subplot(1, 2, 2)
+    plt.bar(heap_counts.keys(), heap_counts.values(), alpha=0.7, color="green")
+    plt.axhline(
+        y=expected_count,
+        color="r",
+        linestyle="--",
+        label=f"Expected ({expected_count:.1f})",
+    )
+    plt.title("Heap-based Reservoir Sampling")
+    plt.xlabel("Element")
+    plt.ylabel("Count")
+    plt.legend()
+    plt.grid(alpha=0.3)
+
+    plt.tight_layout()
+    plt.savefig("reservoir_sampling_distribution.png", dpi=300)
+
+    print("\n==== Testing Performance ====")
+
+    # Test performance with different input sizes
+    sizes = [100, 1000, 10000, 100000, 1000000]
+    k_perf = 20
+
+    print("\nStandard Algorithm:")
+    standard_times = test_performance(reservoir_sampling, k_perf, sizes)
+
+    print("\nHeap Algorithm:")
+    heap_times = test_performance(reservoir_sampling_heap, k_perf, sizes)
+
+    # Plot performance comparison
+    plt.figure(figsize=(10, 6))
+    plt.plot(sizes, standard_times, marker="o", label="Standard Algorithm")
+    plt.plot(sizes, heap_times, marker="s", label="Heap Algorithm")
+    plt.xscale("log")
+    plt.yscale("log")
+    plt.xlabel("Input Size")
+    plt.ylabel("Execution Time (seconds)")
+    plt.title(f"Performance Comparison (k={k_perf})")
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    plt.savefig("reservoir_sampling_performance.png", dpi=300)
+
+
+if __name__ == "__main__":
+    main()
