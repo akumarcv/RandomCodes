@@ -90,7 +90,27 @@ class KMeans:
             if movement < 1e-6:
                 break
 
+        def predict(self, X):
+            """
+            Predict the closest cluster for each data point in X.
 
+            Parameters:
+            -----------
+            X : np.ndarray
+                Input data as a numpy array of shape (n_samples, n_features)
+
+            Returns:
+            --------
+            np.ndarray : Cluster index for each data point in X
+            """
+            predictions = np.zeros(X.shape[0])
+            for i, point in enumerate(X):
+                distances_with_centroids = [
+                    np.linalg.norm(point - self.centroids[j, :]) for j in range(self.K)
+                ]
+                predictions[i] = np.argmin(distances_with_centroids)
+            return predictions
+        
 def plot_dataset(X, y=None, title="Dataset"):
     """Plot the original dataset with true labels if available."""
     plt.figure(figsize=(10, 7))
