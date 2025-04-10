@@ -1,100 +1,113 @@
-def rotate_image(matrix):
+from collections import deque
+
+
+def rotting_oranges(grid):
     """
-    Rotate a square matrix 90 degrees clockwise in-place.
-    Uses a layer-by-layer rotation approach to swap elements in groups of 4.
-
-    Args:
-        matrix: Square matrix represented as a list of lists
-
+    Calculates the minimum time to rot all fresh oranges.
+    
+    This function uses a breadth-first search (BFS) approach to simulate 
+    the rotting process. Each minute, all the rotten oranges will spread 
+    the rot to adjacent (up, down, left, right) fresh oranges.
+    
+    Parameters:
+    -----------
+    grid : List[List[int]]
+        A grid where:
+        - 0 represents an empty cell
+        - 1 represents a fresh orange
+        - 2 represents a rotten orange
+    
     Returns:
-        list: The rotated matrix (same object, modified in-place)
-
-    Time Complexity: O(n²) where n is the dimension of the matrix
-    Space Complexity: O(1) as rotation is done in-place
-
-    Example:
-        >>> rotate_image([[1,2], [3,4]])
-        [[3,1], [4,2]]  # 90 degrees clockwise rotation
+    --------
+    int
+        The minimum number of minutes needed for all oranges to rot,
+        or -1 if it's impossible to rot all oranges
+    
+    Time Complexity: O(m*n) where m and n are the dimensions of the grid
+    Space Complexity: O(m*n) in the worst case for the queue
     """
-    n = len(matrix)  # Get matrix dimensions
+    # Count fresh oranges and initialize BFS queue with rotten oranges
+    fresh = 0
+    queue = deque()
+    max_minutes = 0
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]  # Up, down, left, right
 
-    # Process each layer of the matrix from outermost to innermost
-    for row in range(n // 2):
-        # For each layer, process elements except the corners
-        for col in range(row, n - row - 1):
-            # Perform a 4-way swap to rotate elements 90° clockwise
-            # Swap 1: top → right
-            matrix[row][col], matrix[col][n - row - 1] = (
-                matrix[col][n - row - 1],  # Right side element
-                matrix[row][col],  # Top side element
-            )
-            # Swap 2: right → bottom (using new value at top position)
-            matrix[row][col], matrix[n - row - 1][n - col - 1] = (
-                matrix[n - row - 1][n - col - 1],  # Bottom side element
-                matrix[row][col],  # Right side element (now at top)
-            )
-            # Swap 3: bottom → left (using new value at top position)
-            matrix[row][col], matrix[n - col - 1][row] = (
-                matrix[n - col - 1][row],  # Left side element
-                matrix[row][col],  # Bottom side element (now at top)
-            )
-            # After these 3 swaps, the 4 elements have been rotated clockwise
+    # Initial scan of the grid to count fresh oranges and add rotten ones to queue
+    for i in range(len(grid)):
+        for j in range(len(grid[0])):
+            if grid[i][j] == 2:
+                # Add rotten orange with its position and initial time (0 minutes)
+                queue.append((i, j, 0))
+            elif grid[i][j] == 1:
+                fresh = fresh + 1
+                
+    # Early return if there are no fresh oranges to rot
+    if fresh == 0:
+        return 0
 
-    return matrix
+    # BFS to simulate the rotting process minute by minute
+    while queue:
+        # Get the next rotten orange from the queue
+        r, c, minute = queue.popleft()
+        max_minutes = max(max_minutes, minute)
+        
+        # Check all four adjacent positions
+        for di, dj in directions:
+            new_row, new_col = r + di, c + dj
+            
+            # Check if the adjacent cell is in bounds and has a fresh orange
+            if (
+                new_row >= 0
+                and new_col >= 0
+                and new_row < len(grid)
+                and new_col < len(grid[0])
+                and grid[new_row][new_col] == 1
+            ):
+                # Mark the fresh orange as rotten
+                grid[new_row][new_col] = 2
+                
+                # Add the newly rotten orange to the queue with incremented time
+                queue.append((new_row, new_col, minute + 1))
+                
+                # Decrement fresh orange count
+                fresh -= 1
+
+    # Return the result based on whether all oranges rotted
+    return max_minutes if fresh == 0 else -1
 
 
-def print_matrix(matrix):
-    """
-    Print a 2D matrix in a readable format
-    Args:
-        matrix: 2D list of integers
-    """
-    for row in matrix:
-        print("\t", end="")
-        for num in row:
-            print(f"{num:4}", end="")  # Format each number with width 4
-        print()  # New line after each row
-
-
-# Driver code
-def main():
-    """
-    Test the matrix rotation function with various examples.
-    Tests different matrix sizes including:
-    - 1x1 (trivial case)
-    - 2x2 (simplest meaningful rotation)
-    - 3x3 (odd dimensions)
-    - 4x4 (even dimensions)
-    - 5x5 (larger odd dimensions)
-
-    For each matrix:
-    1. Prints the original matrix
-    2. Rotates it 90 degrees clockwise
-    3. Prints the rotated result
-    """
-    inputs = [
-        [[1]],  # 1x1 matrix
-        [[6, 9], [2, 7]],  # 2x2 matrix
-        [[2, 14, 8], [12, 7, 14], [3, 3, 7]],  # 3x3 matrix
-        [[3, 1, 1, 7], [15, 12, 13, 13], [4, 14, 12, 4], [10, 5, 11, 12]],  # 4x4 matrix
-        [
-            [10, 1, 14, 11, 14],  # 5x5 matrix
-            [13, 4, 8, 2, 13],
-            [10, 19, 1, 6, 8],
-            [20, 10, 8, 2, 12],
-            [15, 6, 8, 8, 18],
-        ],
+# Driver code to test rotting_oranges function
+if __name__ == "__main__":
+    test_cases = [
+        # Test Case 1: All oranges can be rotted in 4 minutes
+        ([[2, 1, 1], [1, 1, 0], [0, 1, 1]], 4),
+        
+        # Test Case 2: Impossible case - some oranges can't be reached
+        (
+            [[2, 1, 1], [0, 1, 1], [1, 0, 1]],
+            -1,
+        ),
+        
+        # Test Case 3: No fresh oranges to rot
+        ([[0, 2]], 0),
+        
+        # Test Case 4: Another impossible case with isolated orange
+        ([[1, 2, 1, 1], [0, 1, 1, 0], [0, 1, 0, 1]], -1),
     ]
 
-    for i in range(len(inputs)):
-        print(i + 1, ".\tMatrix:", sep="")
-        print_matrix(inputs[i])
+    for i, (grid, expected) in enumerate(test_cases, 1):
+        print(f"\nTest Case {i}:")
+        print("Grid:")
+        for row in grid:
+            print(row)
 
-        print("\n\tRotated matrix:", sep="")
-        print_matrix(rotate_image(inputs[i]))
+        # Create a deep copy of grid to avoid modifying original
+        import copy
 
-        print("-" * 100)
+        test_grid = copy.deepcopy(grid)
 
+        result = rotting_oranges(test_grid)
+        print(f"Expected Minutes: {expected}")
+        print(f"Result Minutes: {result}")
 
-if __name__ == "__main__":
-    main()
+        print("✓ Test passed") if expected == result else print("x Test failed")
