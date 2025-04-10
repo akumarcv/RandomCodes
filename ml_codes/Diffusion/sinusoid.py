@@ -12,30 +12,90 @@ from tqdm import tqdm  # pip install tqdm
 import matplotlib.pyplot as plt  # pip install matplotlib
 import torch.optim as optim
 import numpy as np
-import seaborn as sns 
+import seaborn as sns
 import pdb
 
 
 class SinusoidalEmbeddings(nn.Module):
+    """
+    Sinusoidal position embeddings for diffusion timesteps.
+
+    This class creates position embeddings using sine and cosine functions
+    of different frequencies, following the approach used in the paper
+    "Attention Is All You Need" and adapted for diffusion models.
+
+    Parameters:
+    -----------
+    time_steps : int
+        The total number of time steps in the diffusion process
+    embed_dim : int
+        The dimension of the embedding vector
+
+    Attributes:
+    -----------
+    embeddings : torch.Tensor
+        Pre-computed embedding vectors for each time step
+    """
+
     def __init__(self, time_steps: int, embed_dim: int):
         super().__init__()
+        # Create position tensor of shape (time_steps, 1)
         position = torch.arange(time_steps).unsqueeze(1).float()
+
+        # Calculate division terms with exponentially decreasing frequencies
+        # This creates different frequency bands for different dimensions
         div = torch.exp(
             torch.arange(0, embed_dim, 2).float() * -(math.log(10000.0) / embed_dim)
         )
+        
+        # Initialize empty embedding tensor
         embeddings = torch.zeros(time_steps, embed_dim, requires_grad=False)
-        embeddings[:, 0::2] = torch.sin(position * div)
-        embeddings[:, 1::2] = torch.cos(position * div)
+
+        # Fill even indices with sin and odd indices with cos
+        # This creates embeddings with different frequencies for different dimensions
+        embeddings[:, 0::2] = torch.sin(position * div)  # Even dimensions
+        embeddings[:, 1::2] = torch.cos(position * div)  # Odd dimensions
+
         self.embeddings = embeddings
 
     def forward(self, x, t):
+        """
+        Get the time embeddings for a batch of inputs at specified timesteps.
+
+        Parameters:
+        -----------
+        x : torch.Tensor
+            The input tensor, used only for device information
+        t : torch.Tensor
+            Time step indices
+
+        Returns:
+        --------
+        torch.Tensor
+            The time embeddings with shape (batch_size, embed_dim, 1, 1)
+            suitable for adding to convolutional feature maps
+        """
+        # Select embeddings for the requested time steps and move to the correct device
         embeds = self.embeddings[t].to(x.device)
+
+        # Add spatial dimensions for broadcasting with convolutional feature maps
         return embeds[:, :, None, None]
 
 
 def test_sinusoidal_embedding():
     """
-    Test the SinusoidalEmbedding class with visualization
+    Test the SinusoidalEmbedding class with visualization.
+
+    This function generates sinusoidal embeddings for all time steps,
+    and creates visualizations to help understand their properties:
+    1. Line plots showing the embedding values for selected dimensions
+    2. Heatmap showing the full embedding pattern across all dimensions and time steps
+    3. A more detailed heatmap with annotations
+
+    Returns:
+    --------
+    torch.Tensor
+        The generated embeddings
     """
     # Test parameters
     time_steps = 1000
@@ -62,62 +122,34 @@ def test_sinusoidal_embedding():
     embeddings_np = embeddings.numpy()
     t_np = t.numpy()
 
-    # Create a figure with multiple plots
-    plt.figure(figsize=(15, 10))
-    
-    # 1. Line plot of first few dimensions
-    plt.subplot(2, 1, 1)
-    num_dims_to_plot = 8
-    for i in range(num_dims_to_plot):
-        plt.plot(t_np, embeddings_np[:, i], label=f"Dimension {i}")
-
-    plt.title("Sinusoidal Time Step Embeddings - Selected Dimensions")
-    plt.xlabel("Time Step")
-    plt.ylabel("Embedding Value")
-    plt.legend()
-    plt.grid(True)
-    
-    # 2. Seaborn heatmap for 2D color map visualization
-    plt.subplot(2, 1, 2)
-    sns.heatmap(
-        embeddings_np, 
-        cmap="viridis",
-        cbar_kws={"label": "Embedding Value"},
-        xticklabels=10,  # Show fewer ticks for readability
-        yticklabels=10
-    )
-    plt.title("Sinusoidal Embeddings 2D Color Map")
-    plt.xlabel("Embedding Dimension")
-    plt.ylabel("Time Step")
-    
-    plt.tight_layout()
-    plt.savefig("sinusoidal_embeddings.png", dpi=300)
-    plt.show()
-    
     # Create a separate figure for a larger, more detailed heatmap
     plt.figure(figsize=(12, 8))
-    
+
     # Use seaborn's custom color palette for more visual contrast
     # Diverging palette works well for values that go from negative to positive
     sns.heatmap(
-        embeddings_np, 
+        embeddings_np,
         cmap="coolwarm",
         center=0,  # Center the colormap at zero
         robust=True,  # Use robust quantile-based color scaling
         cbar_kws={"label": "Embedding Value", "shrink": 0.8},
         xticklabels=8,
-        yticklabels=10
+        yticklabels=10,
     )
-    
+
     plt.title("Detailed Sinusoidal Embedding Patterns")
     plt.xlabel("Embedding Dimension")
     plt.ylabel("Time Step (Diffusion Process)")
-    
+
     # Add annotations to highlight the different frequencies
-    plt.text(embedding_dim + 1, time_steps//2, 
-             "Higher dimensions\nhave higher\nfrequencies", 
-             fontsize=10, va="center")
-    
+    plt.text(
+        embedding_dim + 1,
+        time_steps // 2,
+        "Higher dimensions\nhave higher\nfrequencies",
+        fontsize=10,
+        va="center",
+    )
+
     plt.tight_layout()
     plt.savefig("sinusoidal_embeddings_heatmap.png", dpi=300)
     plt.show()
