@@ -2,25 +2,57 @@ from typing import List, Optional
 from queue import Queue
 
 
-def display_tree(root: "TreeNode", space: int = 0, level_space: int = 10) -> None:
+def display_tree(root: "TreeNode", space: int = 0, level_space: int = 3) -> None:
     """
-    Display a binary tree in a 2D format using recursive inorder traversal.
+    Display a binary tree with proper vertical alignment between parents and children.
 
     Args:
         root: Root node of the tree to display
-        space: Current space from left margin
-        level_space: Space between levels
+        space: Not used in this implementation but kept for API compatibility
+        level_space: Controls the spacing between nodes
 
     Time Complexity: O(n) where n is number of nodes
-    Space Complexity: O(h) where h is height of tree for recursion stack
+    Space Complexity: O(n) for the grid representation
     """
     if root is None:
+        print("Empty tree")
         return
 
-    space += level_space
-    display_tree(root.right, space, level_space)  # Process right subtree
-    print(" " * (space - level_space) + str(root.data))  # Print current node
-    display_tree(root.left, space, level_space)  # Process left subtree
+    # Calculate height of the tree
+    def get_height(node):
+        if not node:
+            return 0
+        return max(get_height(node.left), get_height(node.right)) + 1
+
+    height = get_height(root)
+    width = 2**height - 1
+
+    # Initialize the grid with spaces
+    grid = [[" " for _ in range(width * level_space)] for _ in range(height)]
+
+    # Fill the grid with tree values
+    def fill_grid(node, h, left, right):
+        if not node:
+            return
+
+        # Calculate middle position for current node
+        mid = (left + right) // 2
+
+        # Place the node value in the grid
+        node_str = str(node.data)
+        start_pos = mid - len(node_str) // 2
+        for i, char in enumerate(node_str):
+            grid[h][start_pos + i] = char
+
+        # Process children
+        fill_grid(node.left, h + 1, left, mid - 1)
+        fill_grid(node.right, h + 1, mid + 1, right)
+
+    fill_grid(root, 0, 0, width - 1)
+
+    # Print the grid
+    for row in grid:
+        print("".join(row))
 
 
 class TreeNode:
@@ -100,3 +132,9 @@ class BinaryTree:
             i += 1
 
         return root
+
+    def display(self):
+        """
+        Display the binary tree in a level-by-level format.
+        """
+        display_tree(self.root)

@@ -4,11 +4,11 @@ from collections import deque
 def rotting_oranges(grid):
     """
     Calculates the minimum time to rot all fresh oranges.
-    
-    This function uses a breadth-first search (BFS) approach to simulate 
-    the rotting process. Each minute, all the rotten oranges will spread 
+
+    This function uses a breadth-first search (BFS) approach to simulate
+    the rotting process. Each minute, all the rotten oranges will spread
     the rot to adjacent (up, down, left, right) fresh oranges.
-    
+
     Parameters:
     -----------
     grid : List[List[int]]
@@ -16,13 +16,13 @@ def rotting_oranges(grid):
         - 0 represents an empty cell
         - 1 represents a fresh orange
         - 2 represents a rotten orange
-    
+
     Returns:
     --------
     int
         The minimum number of minutes needed for all oranges to rot,
         or -1 if it's impossible to rot all oranges
-    
+
     Time Complexity: O(m*n) where m and n are the dimensions of the grid
     Space Complexity: O(m*n) in the worst case for the queue
     """
@@ -40,7 +40,7 @@ def rotting_oranges(grid):
                 queue.append((i, j, 0))
             elif grid[i][j] == 1:
                 fresh = fresh + 1
-                
+
     # Early return if there are no fresh oranges to rot
     if fresh == 0:
         return 0
@@ -50,11 +50,11 @@ def rotting_oranges(grid):
         # Get the next rotten orange from the queue
         r, c, minute = queue.popleft()
         max_minutes = max(max_minutes, minute)
-        
+
         # Check all four adjacent positions
         for di, dj in directions:
             new_row, new_col = r + di, c + dj
-            
+
             # Check if the adjacent cell is in bounds and has a fresh orange
             if (
                 new_row >= 0
@@ -65,10 +65,10 @@ def rotting_oranges(grid):
             ):
                 # Mark the fresh orange as rotten
                 grid[new_row][new_col] = 2
-                
+
                 # Add the newly rotten orange to the queue with incremented time
                 queue.append((new_row, new_col, minute + 1))
-                
+
                 # Decrement fresh orange count
                 fresh -= 1
 
@@ -81,16 +81,13 @@ if __name__ == "__main__":
     test_cases = [
         # Test Case 1: All oranges can be rotted in 4 minutes
         ([[2, 1, 1], [1, 1, 0], [0, 1, 1]], 4),
-        
         # Test Case 2: Impossible case - some oranges can't be reached
         (
             [[2, 1, 1], [0, 1, 1], [1, 0, 1]],
             -1,
         ),
-        
         # Test Case 3: No fresh oranges to rot
         ([[0, 2]], 0),
-        
         # Test Case 4: Another impossible case with isolated orange
         ([[1, 2, 1, 1], [0, 1, 1, 0], [0, 1, 0, 1]], -1),
     ]
