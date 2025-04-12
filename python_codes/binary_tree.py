@@ -55,6 +55,33 @@ def display_tree(root: "TreeNode", space: int = 0, level_space: int = 3) -> None
         print("".join(row))
 
 
+def print_tree(root, level=0, prefix="Root: "):
+    """
+    Print the binary tree in a readable hierarchical format.
+
+    Args:
+        root: The root node of the tree or subtree
+        level: Current level in the tree (for indentation)
+        prefix: String to print before the node value
+    """
+    if root is None:
+        return
+
+    indent = "    " * level
+    print(f"{indent}{prefix}{root.data}")
+
+    if root.left or root.right:
+        if root.left:
+            print_tree(root.left, level + 1, "L── ")
+        else:
+            print(f"{indent}    L── None")
+
+        if root.right:
+            print_tree(root.right, level + 1, "R── ")
+        else:
+            print(f"{indent}    R── None")
+
+
 class TreeNode:
     """
     Node class for Binary Tree implementation.
