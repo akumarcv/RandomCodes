@@ -81,7 +81,7 @@ def print_tree(root, level=0, prefix="Root: "):
 if __name__ == "__main__":
     """
     Test cases for the binary tree mirroring functionality.
-    
+
     This driver code:
     1. Creates several test trees
     2. Mirrors each tree
@@ -92,7 +92,7 @@ if __name__ == "__main__":
     print("-" * 50)
     print("Test Case 1: Standard Binary Tree")
     print("-" * 50)
-    
+
     # Create a sample binary tree
     #        1
     #       / \
@@ -116,7 +116,7 @@ if __name__ == "__main__":
     # Print the mirrored tree
     print("\nMirrored Tree:")
     print_tree(mirrored_root)
-    
+
     # Verify mirroring: Expected structure after mirroring
     #        1
     #       / \
@@ -125,50 +125,52 @@ if __name__ == "__main__":
     #    6   5   4
     print("\nVerification:")
     is_correct = (
-        mirrored_root.data == 1 and
-        mirrored_root.left.data == 3 and
-        mirrored_root.right.data == 2 and
-        mirrored_root.left.left.data == 6 and
-        mirrored_root.right.left.data == 5 and
-        mirrored_root.right.right.data == 4
+        mirrored_root.data == 1
+        and mirrored_root.left.data == 3
+        and mirrored_root.right.data == 2
+        and mirrored_root.left.left.data == 6
+        and mirrored_root.right.left.data == 5
+        and mirrored_root.right.right.data == 4
     )
     print(f"Mirror correct: {is_correct}")
-    
+
     # Test Case 2: Single node tree
     print("\n" + "-" * 50)
     print("Test Case 2: Single Node Tree")
     print("-" * 50)
-    
+
     single_node = TreeNode(10)
     print("Original Tree:")
     print_tree(single_node)
-    
+
     mirrored_single = mirror_binary_tree(single_node)
     print("\nMirrored Tree:")
     print_tree(mirrored_single)
-    
+
     print("\nVerification:")
-    print(f"Mirror correct: {mirrored_single.data == 10 and mirrored_single.left is None and mirrored_single.right is None}")
-    
+    print(
+        f"Mirror correct: {mirrored_single.data == 10 and mirrored_single.left is None and mirrored_single.right is None}"
+    )
+
     # Test Case 3: Empty tree
     print("\n" + "-" * 50)
     print("Test Case 3: Empty Tree")
     print("-" * 50)
-    
+
     empty_tree = None
     print("Original Tree: None")
-    
+
     mirrored_empty = mirror_binary_tree(empty_tree)
     print("Mirrored Tree: None")
-    
+
     print("\nVerification:")
     print(f"Mirror correct: {mirrored_empty is None}")
-    
+
     # Test Case 4: Unbalanced tree
     print("\n" + "-" * 50)
     print("Test Case 4: Unbalanced Tree")
     print("-" * 50)
-    
+
     # Create an unbalanced tree
     #        1
     #       /
@@ -178,14 +180,14 @@ if __name__ == "__main__":
     unbalanced = TreeNode(1)
     unbalanced.left = TreeNode(2)
     unbalanced.left.left = TreeNode(3)
-    
+
     print("Original Tree:")
     print_tree(unbalanced)
-    
+
     mirrored_unbalanced = mirror_binary_tree(unbalanced)
     print("\nMirrored Tree:")
     print_tree(mirrored_unbalanced)
-    
+
     # Expected:
     #        1
     #         \
@@ -194,11 +196,11 @@ if __name__ == "__main__":
     #            3
     print("\nVerification:")
     is_correct = (
-        mirrored_unbalanced.data == 1 and
-        mirrored_unbalanced.right is not None and
-        mirrored_unbalanced.right.data == 2 and
-        mirrored_unbalanced.right.right is not None and
-        mirrored_unbalanced.right.right.data == 3 and
-        mirrored_unbalanced.left is None
+        mirrored_unbalanced.data == 1
+        and mirrored_unbalanced.right is not None
+        and mirrored_unbalanced.right.data == 2
+        and mirrored_unbalanced.right.right is not None
+        and mirrored_unbalanced.right.right.data == 3
+        and mirrored_unbalanced.left is None
     )
     print(f"Mirror correct: {is_correct}")

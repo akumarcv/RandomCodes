@@ -51,16 +51,13 @@ class Solution:
                 # For other non-digits just push onto the stack.
                 else:
                     stack.append(ch)
-
+            print(f"Stack: {stack}")
         # Push the last operand to stack, if any.
         if n:
             stack.append(operand)
 
         # Evaluate any left overs in the stack.
         return self.evaluate_expr(stack)
-
-
-from basic_calculator import Solution
 
 
 def test_calculator():
