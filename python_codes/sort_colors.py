@@ -1,46 +1,67 @@
-def sort_colors(colors):
-    # Initialize the start, current, and end pointers
-    start, current, end = 0, 0, len(colors) - 1
+def sort_colors(nums):
+    """
+    Sort an array containing only 0s, 1s, and 2s in-place.
 
-    # Iterate through the list until the current pointer exceeds the end pointer
-    while current <= end:
-        if colors[current] == 0:
-            # If the current element is 0 (red), swap it with the element at the start pointer
-            # This ensures the red element is placed at the beginning of the array
-            colors[start], colors[current] = colors[current], colors[start]
-            # Move both the start and current pointers one position forward
-            current += 1
-            start += 1
+    This is also known as the Dutch National Flag problem.
+    The algorithm uses a three-pointer approach to sort the array in a single pass.
 
-        elif colors[current] == 1:
-            # If the current element is 1 (white), just move the current pointer one position forward
-            current += 1
+    Args:
+        nums: List of integers (only 0s, 1s, and 2s)
 
-        else:
-            # If the current element is 2 (blue), swap it with the element at the end pointer
-            # This pushes the blue element to the end of the array
-            colors[current], colors[end] = colors[end], colors[current]
-            # Move the end pointer one position backward
-            end -= 1
-    return colors
+    Returns:
+        None: The array is sorted in-place
+
+    Time Complexity: O(n) where n is the length of the array
+    Space Complexity: O(1) as the sorting is done in-place
+
+    Example:
+        >>> nums = [2,0,2,1,1,0]
+        >>> sort_colors(nums)
+        >>> nums
+        [0,0,1,1,2,2]
+    """
+    # Initialize three pointers
+    low = 0  # points to the boundary of 0s (everything before low is 0)
+    mid = 0  # current element being examined
+    high = len(nums) - 1  # points to the boundary of 2s (everything after high is 2)
+
+    # Continue until the middle pointer crosses the high pointer
+    while mid <= high:
+        if nums[mid] == 0:
+            # Found a 0 - swap with the element at low pointer
+            nums[low], nums[mid] = nums[mid], nums[low]
+            # Move both pointers forward
+            low += 1
+            mid += 1
+        elif nums[mid] == 1:
+            # Found a 1 - it's already in the correct place
+            mid += 1
+        else:  # nums[mid] == 2
+            # Found a 2 - swap with the element at high pointer
+            nums[mid], nums[high] = nums[high], nums[mid]
+            # Only decrement high pointer, as the swapped element needs to be examined
+            high -= 1
 
 
-# Driver code
 def main():
-    inputs = [
-        [0, 1, 0],
-        [1, 1, 0, 2],
-        [2, 1, 1, 0, 0],
-        [2, 2, 2, 0, 1, 0],
-        [2, 1, 1, 0, 1, 0, 2],
+    """
+    Driver code to test the sort_colors function with various inputs.
+    Tests different distributions of colors in arrays.
+    """
+    test_cases = [
+        [2, 0, 2, 1, 1, 0],  # Mixed colors
+        [0, 1, 2, 0, 1, 2],  # Repeating pattern
+        [1, 1, 1, 1, 1, 1],  # All 1s
+        [2, 2, 2, 0, 0, 0],  # Only 0s and 2s
+        [2, 1, 0, 2, 1, 0, 2, 1],  # Longer sequence
     ]
 
-    for i in range(len(inputs)):
-        colors = inputs[i]
-        print(i + 1, ".\tcolors:", colors)
-        sort_colors(colors)
-        print("\n\tThe sorted array is:", colors)
-        print("-" * 100)
+    for i, nums in enumerate(test_cases, 1):
+        print(f"Test Case {i}:")
+        print(f"Before sorting: {nums}")
+        sort_colors(nums)
+        print(f"After sorting:  {nums}")
+        print("-" * 50)
 
 
 if __name__ == "__main__":

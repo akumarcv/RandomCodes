@@ -47,10 +47,10 @@ def min_refuel_stops(target, start_fuel, stations):
             return -1
 
         # Take fuel from station with maximum fuel
-        fuel = heapq.heappop(max_heap)
+        fuel = -heapq.heappop(max_heap)
         current_fuel_capacity = (
-            current_fuel_capacity - fuel
-        )  # Adding fuel (negative of negative)
+            current_fuel_capacity + fuel
+        )  # Adding fuel from the station
         stops += 1  # Count this refueling stop
 
     return stops

@@ -17,18 +17,25 @@ def rescue_boats(people: list[int], limit: int) -> int:
         >>> rescue_boats([3,2,2,1], 3)
         3  # Can pair [1,2], [2], [3] in three boats
     """
-    # Sort people by weight for efficient pairing
+    # Sort people by weight for efficient pairing - this enables the greedy approach
     people.sort()
-    i, j = 0, len(people) - 1  # Two pointers: lightest and heaviest
+    i, j = 0, len(people) - 1  # Two pointers: lightest and heaviest person
     count = 0  # Track number of boats needed
 
-    # Try to pair people while pointers haven't crossed
+    # Core logic: Greedy approach using two pointers
+    # - Always try to pair the heaviest person with the lightest available person
+    # - If they can't be paired, the heaviest person gets their own boat
+    # - This guarantees the optimal solution because:
+    #   1. The heaviest person must be in some boat
+    #   2. Pairing them with the lightest maximizes remaining capacity for other pairs
+    #   3. If they can't be paired with the lightest, they can't be paired with anyone
     while i <= j:
-        # If lightest and heaviest can share boat
+        # If lightest and heaviest can share a boat (sum of weights <= limit)
         if people[i] + people[j] <= limit:
-            i += 1  # Move lightest pointer right
-        j -= 1  # Always move heaviest pointer left
-        count += 1  # One more boat needed
+            i += 1  # Lightest person is assigned to boat, move to next lightest
+        # Whether paired or not, heaviest person is assigned to current boat
+        j -= 1  # Move to next heaviest person
+        count += 1  # One boat has been assigned (either with 1 or 2 people)
     return count
 
 

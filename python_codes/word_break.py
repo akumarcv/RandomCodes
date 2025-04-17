@@ -1,84 +1,75 @@
 def print_possible_combinations(s, word_dict):
     """
-    Prints all possible combinations of breaking the string using words from
-    the dictionary.
-    Uses dynamic programming to build up combinations incrementally.
+    Print all possible ways to segment the string using words from dictionary.
+    Uses backtracking to find all valid segmentations.
 
     Args:
-        s: Input string to break into dictionary words
-        word_dict: List of valid dictionary words
-
-    Returns:
-        None: Prints results to console
-
-    Time Complexity: O(n³) where n is the length of string s
-    Space Complexity: O(n*m) where m is number of possible combinations
-
-    Example:
-        >>> print_possible_combinations("catdog", ["cat", "dog"])
-        All possible combinations:
-            cat dog
+        s: String to segment
+        word_dict: List of valid words to use for segmentation
     """
-    n = len(s)
-    # dp[i] stores all possible combinations of breaking s[0:i]
-    dp = [[] for _ in range(n + 1)]
-    dp[0] = [""]  # Empty string has one combination (empty)
+    # Convert list to set for O(1) lookups
+    word_set = set(word_dict)
 
-    # For each position in string
-    for i in range(1, n + 1):
-        # Try all possible substrings ending at i
-        for j in range(i):
-            # Get substring from j to i
-            word = s[j:i]
-            # If word exists in dictionary
-            if word in word_dict:
-                # Add new combinations by appending current word
-                # to all combinations at j
-                for prev in dp[j]:
-                    new_comb = prev + " " + word if prev else word
-                    dp[i].append(new_comb)
+    def backtrack(start, path):
+        """
+        Recursive backtracking function to find all valid segmentations.
 
-    # Print all combinations
-    if dp[n]:
-        print("All possible combinations:")
-        for combination in dp[n]:
-            print(f"\t{combination}")
-    else:
-        print("\tNo possible combinations")
+        Args:
+            start: Starting index in string to segment
+            path: Current list of words in segmentation
+        """
+        # Base case: reached end of string - valid segmentation found
+        if start == len(s):
+            print('"' + " ".join(path) + '"')
+            return
+
+        # Try all possible word lengths starting at current position
+        for end in range(start + 1, len(s) + 1):
+            # If substring is a valid word, include it and continue
+            if s[start:end] in word_set:
+                path.append(s[start:end])
+                backtrack(end, path)
+                path.pop()  # Backtrack
+
+    backtrack(0, [])
 
 
 def word_break(s, word_dict):
     """
-    Determine if string s can be segmented into words from the dictionary.
-    Uses bottom-up dynamic programming approach to check if valid segmentation exists.
+    Determine if a string can be segmented into words from the dictionary.
+
+    Uses dynamic programming approach where dp[i] represents whether
+    the substring s[0:i] can be segmented into dictionary words.
 
     Args:
-        s: Input string to check for word break possibility
-        word_dict: List of valid dictionary words
+        s: String to segment
+        word_dict: List of valid words to use for segmentation
 
     Returns:
-        bool: True if string can be segmented using dictionary words, False otherwise
+        bool: True if string can be segmented, False otherwise
 
-    Time Complexity: O(n²) where n is the length of string s
+    Time Complexity: O(n²*m) where n is length of string and m is average word length
     Space Complexity: O(n) for the dp array
-
-    Example:
-        >>> word_break("catsanddog", ["cats", "and", "dog"])
-        True  # Can be broken as "cats and dog"
     """
-    dp = [False] * (len(s) + 1)  # dp[i] = can s[0:i] be segmented?
-    dp[0] = True  # Empty string can always be segmented
+    # Convert word_dict to set for O(1) lookups
+    word_set = set(word_dict)
 
-    # For each position in the string
+    # dp[i] indicates if substring s[0:i] can be segmented
+    dp = [False] * (len(s) + 1)
+
+    # Empty string can always be segmented
+    dp[0] = True
+
+    # Build solution bottom-up
     for i in range(1, len(s) + 1):
-        # Try all possible substrings ending at position i
+        # Try all possible word endings at current position
         for j in range(i):
-            # If s[0:j] can be segmented and s[j:i] is in dictionary
-            if dp[j] and s[j:i] in word_dict:
-                dp[i] = True  # s[0:i] can be segmented
-                break  # No need to check further substrings
+            # If s[0:j] can be segmented and s[j:i] is a valid word
+            if dp[j] and s[j:i] in word_set:
+                dp[i] = True
+                break
 
-    return dp[-1]  # Return result for whole string
+    return dp[len(s)]
 
 
 def main():
@@ -96,14 +87,13 @@ def main():
     2. Shows all possible word break combinations
     3. Indicates whether any valid segmentation exists
     """
-    # Test strings to check for word break possibility
+    # Test strings to check for word breaking
     s = [
-        "vegancookbook",
-        "catsanddog",
-        "highwaycrash",
-        "pineapplepenapple",
-        "screamicecream",
-        "educativecourse",
+        "educativeio",
+        "applepenapple",
+        "catsandog",
+        "codecodingcodecoding",
+        "vegancookbookcook",
     ]
 
     # Dictionary of valid words for breaking strings

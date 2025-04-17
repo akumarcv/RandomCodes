@@ -26,7 +26,7 @@ def helper(grid, word, i, j, index):
         or i >= len(grid)
         or j < 0
         or j >= len(grid[0])
-        or grid[i][j] != word[index]
+        or grid[i][j].lower() != word[index].lower()
     ):
         return False
 
@@ -49,35 +49,38 @@ def helper(grid, word, i, j, index):
 
 def word_search(grid, word):
     """
-    Search for a word in a 2D grid of characters.
-    The word can be constructed from adjacent characters in up, down, left, or right directions.
+    Search for a word in a 2D grid of characters using backtracking.
+
+    The function checks if the given word can be constructed from adjacent
+    characters in the grid, where adjacent means horizontally or vertically
+    neighboring cells. The same cell cannot be used more than once.
 
     Args:
-        grid: 2D array of characters
+        grid: 2D list of characters representing the board
         word: String to search for
 
     Returns:
-        bool: True if the word can be found in the grid, False otherwise
+        bool: True if word is found, False otherwise
 
     Time Complexity: O(M*N*4^L) where M,N are grid dimensions and L is word length
-    Space Complexity: O(L) for recursion stack
-
-    Example:
-        >>> word_search([["A","B"],["C","D"]], "ABC")
-        True  # A→B→C forms a valid path
+    Space Complexity: O(L) for recursion stack depth
     """
-    # Empty word edge case
+    # Edge case: empty word is always found
     if not word:
         return True
 
+    # Edge case: empty grid cannot contain any word
+    if not grid or not grid[0]:
+        return False
+
+    rows, cols = len(grid), len(grid[0])
+
     # Try starting the search from each cell in the grid
-    for i in range(len(grid)):
-        for j in range(len(grid[0])):
-            # If we find the word starting at any position, return True
-            if helper(grid, word, i, j, 0):
+    for i in range(rows):
+        for j in range(cols):
+            if grid[i][j].lower() == word[0].lower() and helper(grid, word, i, j, 0):
                 return True
 
-    # Word not found after checking all starting positions
     return False
 
 
