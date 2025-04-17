@@ -1,4 +1,4 @@
-def find_all_subsets(nums: list) -> list[list]:
+def find_all_subsets_bit(nums: list) -> list[list]:
     """
     Generate all possible subsets of a given list using bit manipulation.
 
@@ -12,7 +12,7 @@ def find_all_subsets(nums: list) -> list[list]:
     Space Complexity: O(2^n) to store all subsets
 
     Example:
-        >>> find_all_subsets([1, 2])
+        >>> find_all_subsets_bit([1, 2])
         [[], [1], [2], [1, 2]]
     """
     # Handle empty input case
@@ -33,9 +33,6 @@ def find_all_subsets(nums: list) -> list[list]:
                 subset.append(nums[j])
         subsets.append(subset)
 
-    # Print current subset configuration
-    print("\tAll subsets:", subsets)
-    print(f"\tTotal number of subsets: {len(subsets)}")
     return subsets
 
 
@@ -104,7 +101,9 @@ def main():
 
     for i, num_set in enumerate(nums, 1):
         print(f"{i}. Input Set: {num_set}")
-        find_all_subsets(num_set)
+        subsets = find_all_subsets(num_set)
+        print("\tAll subsets:", subsets)
+        print(f"\tTotal number of subsets: {len(subsets)}")
         print("-" * 100)
 
 
