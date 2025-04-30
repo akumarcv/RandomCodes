@@ -16,10 +16,13 @@ def rand7():
 
 def rand10(n):
     output = []
-    for i in range(n):
+    while len(output) < n:
+        # Generate a random number in the range [1, 49]
         random_num = 7 * (rand7() - 1) + rand7()
-        print(random_num)
-        if random_num < 40:
+        
+        # Only use values in the range [1, 40]
+        if random_num <= 40:
+            # Map [1, 40] to [1, 10]
             output.append(random_num // 4 + 1)
     return output
 

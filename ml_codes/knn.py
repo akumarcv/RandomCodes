@@ -6,6 +6,35 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, classification_report
 
 
+def most_common_element(arr):
+    """
+    Find the most common element in an array without using libraries.
+    
+    Parameters:
+    arr : array-like
+        Array of elements
+        
+    Returns:
+    The most common element in the array
+    """
+    # Create a dictionary to count occurrences of each element
+    counts = {}
+    for element in arr:
+        if element in counts:
+            counts[element] += 1
+        else:
+            counts[element] = 1
+    
+    # Find the element with maximum count
+    max_count = 0
+    max_element = None
+    for element, count in counts.items():
+        if count > max_count:
+            max_count = count
+            max_element = element
+    
+    return max_element
+
 
 class KNN:
     def __init__(self, X, y, k=3):
@@ -45,7 +74,7 @@ class KNN:
         k_nearest_labels = self.y[k_indices]
         
         # Return the most common label among the k nearest neighbors
-        return np.bincount(k_nearest_labels).argmax()
+        return most_common_element(k_nearest_labels)
     
     def predict_batch(self, X_test):
         """

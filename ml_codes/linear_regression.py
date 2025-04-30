@@ -28,8 +28,9 @@ class LinearRegression:
 
     def error(self, predictions, y):
         N = predictions.shape[0]
-        E = (1 / N) * np.sum((predictions - y) ** 2)
-        return E
+        E = (1 / N) * np.sum((predictions - y) ** 2) 
+        regularization = self.Lambda * np.linalg.norm(self.W)
+        return E + regularization
 
     def gradient(self, x, y, predictions):
         N = x.shape[0]
