@@ -49,6 +49,30 @@ def mirror_binary_tree(root):
     new_root = mirror_helper(root)
     return new_root
 
+def mirror_binary_tree_in_place(root):
+    """
+    Mirrors a binary tree in-place by swapping left and right children at each node.
+    
+    Args:
+        root: Root node of the binary tree to mirror
+        
+    Returns:
+        The root of the mirrored tree (same as input root)
+    """
+    # Base case: empty tree or leaf node
+    if root is None:
+        return None
+        
+    # Recursively mirror the left and right subtrees
+    left = mirror_binary_tree_in_place(root.left)
+    right = mirror_binary_tree_in_place(root.right)
+    
+    # Swap the left and right children
+    root.left = right
+    root.right = left
+    
+    # Return the root of the mirrored tree
+    return root
 
 def print_tree(root, level=0, prefix="Root: "):
     """

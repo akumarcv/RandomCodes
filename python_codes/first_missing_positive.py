@@ -26,7 +26,7 @@ def smallest_missing_positive_integer(nums: list[int]) -> int:
             nums[i], nums[correct_pos] = nums[correct_pos], nums[i]  # Swap
         else:
             i += 1  # Move to next number if current can't be placed
-
+    
     # Second pass: Find first position where number doesn't match index
     for i in range(len(nums)):
         if (nums[i] - 1) != i:
