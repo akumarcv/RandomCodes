@@ -3,7 +3,10 @@ import torch.nn as nn
 from torch import Tensor
 from typing import Optional, Callable
 
-def conv3x3(in_planes: int, out_planes: int, stride: int = 1, groups: int = 1, dilation: int = 1) -> nn.Conv2d:
+
+def conv3x3(
+    in_planes: int, out_planes: int, stride: int = 1, groups: int = 1, dilation: int = 1
+) -> nn.Conv2d:
     """3x3 convolution with padding"""
     return nn.Conv2d(
         in_planes,
@@ -15,6 +18,7 @@ def conv3x3(in_planes: int, out_planes: int, stride: int = 1, groups: int = 1, d
         bias=False,
         dilation=dilation,
     )
+
 
 class BasicBlock(nn.Module):
     expansion: int = 1
@@ -64,26 +68,28 @@ class BasicBlock(nn.Module):
 
         return out
 
+
 def main():
     # Create a test input tensor
     batch_size = 1
     channels = 64
     height, width = 28, 28
     x = torch.randn(batch_size, channels, height, width)
-    
+
     # Create a BasicBlock instance
     block = BasicBlock(inplanes=64, planes=64)
-    
+
     # Pass the input through the block
     output = block(x)
-    
+
     # Print shapes to verify
     print(f"Input shape: {x.shape}")
     print(f"Output shape: {output.shape}")
-    
+
     # Verify that dimensions match (since stride=1 and no downsampling)
     assert x.shape == output.shape, "Input and output shapes should match"
     print("BasicBlock test passed!")
+
 
 if __name__ == "__main__":
     main()

@@ -28,15 +28,13 @@ class LinearRegression:
 
     def error(self, predictions, y):
         N = predictions.shape[0]
-        E = (1 / N) * np.sum((predictions - y) ** 2) 
+        E = (1 / N) * np.sum((predictions - y) ** 2)
         regularization = self.Lambda * np.linalg.norm(self.W)
         return E + regularization
 
     def gradient(self, x, y, predictions):
         N = x.shape[0]
-        return (
-            2 / N * np.matmul(x.T, (predictions - y))
-        ) + 2 * self.Lambda * self.W
+        return (2 / N * np.matmul(x.T, (predictions - y))) + 2 * self.Lambda * self.W
 
     def fit(self, x_train, y_train, x_val, y_val):
         self.initialize_weights(x_train.shape[1])
@@ -44,7 +42,9 @@ class LinearRegression:
         for i in range(self.max_iter):
             predictions_train = self.prediction(x_train)
             loss_train = self.error(predictions_train, y_train)
-            self.W = self.W - self.alpha * self.gradient(x_train, y_train, predictions_train)
+            self.W = self.W - self.alpha * self.gradient(
+                x_train, y_train, predictions_train
+            )
             self.train_losses.append(loss_train)
             predictions_val = self.prediction(x_val)
             loss_val = self.error(predictions_val, y_val)

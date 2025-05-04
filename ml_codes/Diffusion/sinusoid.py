@@ -47,7 +47,7 @@ class SinusoidalEmbeddings(nn.Module):
         div = torch.exp(
             torch.arange(0, embed_dim, 2).float() * -(math.log(10000.0) / embed_dim)
         )
-        
+
         # Initialize empty embedding tensor
         embeddings = torch.zeros(time_steps, embed_dim, requires_grad=False)
 

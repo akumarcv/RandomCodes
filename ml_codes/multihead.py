@@ -34,7 +34,7 @@ class SelfAttention(nn.Module):
         v = v.view(B, T, self.n_heads, self.embed_dim // self.n_heads).permute(
             0, 2, 1, 3
         )
-        
+
         attention = (q @ k.transpose(-1, -2)) / math.sqrt(k.shape[-1])
         attention = attention.masked_fill(self.mask == 0, float("-inf"))
         attention = nn.functional.softmax(attention, dim=-1)

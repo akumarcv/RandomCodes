@@ -110,7 +110,8 @@ class KMeans:
                 ]
                 predictions[i] = np.argmin(distances_with_centroids)
             return predictions
-        
+
+
 def plot_dataset(X, y=None, title="Dataset"):
     """Plot the original dataset with true labels if available."""
     plt.figure(figsize=(10, 7))
