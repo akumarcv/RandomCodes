@@ -40,7 +40,7 @@ def longest_substring(s: str) -> int:
 
         # Calculate current window length and update max if needed
         current_length = right - left + 1
-        
+
         max_length = max(max_length, current_length)
         right += 1  # Expand window to right
 

@@ -1,10 +1,11 @@
 """
 prims mst with an example, hashmap, and time complexity
-Prim's algorithm is a greedy algorithm that finds a minimum 
-spanning tree (MST) for a weighted undirected graph. 
-The MST is a subset of the edges that connects all vertices 
+Prim's algorithm is a greedy algorithm that finds a minimum
+spanning tree (MST) for a weighted undirected graph.
+The MST is a subset of the edges that connects all vertices
 with the minimum total edge weight.
 """
+
 
 def prims_mst(graph):
     """
@@ -19,13 +20,18 @@ def prims_mst(graph):
     num_vertices = len(graph)
     selected = [False] * num_vertices  # Track selected vertices
     edges = []  # List to store edges in the MST
-    min_edge = {i: float('inf') for i in range(num_vertices)}  # Initialize min edge weights
+    min_edge = {
+        i: float("inf") for i in range(num_vertices)
+    }  # Initialize min edge weights
     min_edge[0] = 0  # Start from vertex 0
     parent = {i: None for i in range(num_vertices)}  # Track parent vertices
 
     for _ in range(num_vertices):
         # Find the vertex with the minimum edge weight
-        u = min((v for v in range(num_vertices) if not selected[v]), key=lambda v: min_edge[v])
+        u = min(
+            (v for v in range(num_vertices) if not selected[v]),
+            key=lambda v: min_edge[v],
+        )
         selected[u] = True  # Mark vertex as selected
 
         # Update edges and parent for the MST
@@ -38,6 +44,8 @@ def prims_mst(graph):
                 parent[v] = u
 
     return edges
+
+
 # Example usage
 if __name__ == "__main__":
     # Example graph represented as an adjacency matrix
@@ -46,7 +54,7 @@ if __name__ == "__main__":
         [2, 0, 3, 8, 5],
         [0, 3, 0, 0, 7],
         [6, 8, 0, 0, 9],
-        [0, 5, 7, 9, 0]
+        [0, 5, 7, 9, 0],
     ]
 
     mst_edges = prims_mst(graph)
