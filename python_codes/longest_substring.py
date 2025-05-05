@@ -40,6 +40,7 @@ def longest_substring(s: str) -> int:
 
         # Calculate current window length and update max if needed
         current_length = right - left + 1
+        
         max_length = max(max_length, current_length)
         right += 1  # Expand window to right
 
@@ -50,7 +51,7 @@ def longest_substring(s: str) -> int:
 if __name__ == "__main__":
     test_cases = [
         ("abcabcbb", 3),  # "abc" has length 3
-        ("bbbbb", 1),  # "b" has length 1
+        ("bcada", 4),  # "b" has length 1
         ("pwwkew", 3),  # "wke" has length 3
         ("", 0),  # Empty string has length 0
         ("abcdef", 6),  # "abcdef" has length 6
